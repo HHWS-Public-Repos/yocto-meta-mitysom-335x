@@ -95,7 +95,7 @@ IMAGE_INSTALL = \
      libxrender \
      libxt \
      live555 \
-     lmsensors-dev \
+     lmsensors-libsensors \
      lzo \ 
      makedevs \
      mingetty \
@@ -116,6 +116,7 @@ IMAGE_INSTALL = \
      procps \
      psplash \
      pth \
+     python-xcbgen \
      qt4-embedded \
      randrproto-dev \
      readline \
