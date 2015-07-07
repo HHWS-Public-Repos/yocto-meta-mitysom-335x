@@ -116,7 +116,6 @@ IMAGE_INSTALL = \
      procps \
      psplash \
      pth \
-     python-xcbgen \
      qt4-embedded \
      randrproto-dev \
      readline \
