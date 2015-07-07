@@ -64,7 +64,9 @@ IMAGE_INSTALL = \
      iptables \
      iw \
      kbproto-dev \
+     kernel-modules \
      libassuan \
+     libdrm \
      libffi \
      libgles-omap3 \
      libgles-omap3-rawdemos \
