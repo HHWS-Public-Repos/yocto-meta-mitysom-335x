@@ -6,14 +6,15 @@ BBPATH = "${TOPDIR}"
 BBFILES ?= ""
 
 BBLAYERS ?= " \
-  /export/space/yocto_temp/meta \
-  /export/space/yocto_temp/meta-yocto \
-  /export/space/yocto_temp/meta-yocto-bsp \
-  /export/space/yocto_temp/meta-mitysom_335x \
-  /export/space/yocto_temp/meta-ti \
-  /export/space/yocto_temp/meta-openembedded/meta-oe \
+  /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-mitysom_335x \
+  /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-ti \
+  /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-oe \
+  /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-openembedded/meta-networking \
+  /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta \
+  /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-yocto \
+  /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-yocto-bsp \
   "
 BBLAYERS_NON_REMOVABLE ?= " \
-  /export/space/yocto_temp/meta \
-  /export/space/yocto_temp/meta-yocto \
+  /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta \
+  /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-yocto \
   "
