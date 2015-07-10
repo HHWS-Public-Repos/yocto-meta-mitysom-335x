@@ -8,7 +8,7 @@ BBFILES ?= ""
 BBLAYERS ?= " \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-mitysom_335x \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-ti \
-  /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-oe \
+  /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-openembedded/meta-oe \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-openembedded/meta-networking \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-yocto \
