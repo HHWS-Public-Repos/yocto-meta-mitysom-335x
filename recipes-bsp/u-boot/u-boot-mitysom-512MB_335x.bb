@@ -6,12 +6,12 @@ COMPATIBLE_MACHINE = "mitysom_335x"
 
 SPL_BINARY = "MLO"
 UBOOT_SUFFIX = "img"
-UBOOT_MACHINE = "mityarm335x"
+UBOOT_MACHINE = "mityarm335x_4kpage"
 UBOOT_ENTRYPOINT = "0x80008000"
 UBOOT_LOADADDRESS = "0x80008000"
 
 PR = "r0"
-PV_append = "256MB+git${SRCPV}"
+PV_append = "512MB+git${SRCPV}"
 
 SRC_URI = "git://support.criticallink.com/home/git/u-boot-mityarm-335x.git;protocol=git;branch=${BRANCH}"
 
