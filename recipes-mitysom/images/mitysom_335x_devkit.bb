@@ -5,6 +5,7 @@ IMAGE_INSTALL += \
      alsa-utils-amixer \
      alsa-utils-aplay \
      alsa-utils-speakertest \
+     backlight \
      bash \
      bzip2 \
      canutils \

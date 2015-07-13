@@ -1,0 +1,61 @@
+#!/bin/sh
+
+BL_SYS_DIR=/sys/devices/platform/tps6116x/backlight/tps6116x
+BL_SYS_FILE=${BL_SYS_DIR}/brightness
+BL_MAX_FILE=${BL_SYS_DIR}/max_brightness
+BL_ACT_FILE=${BL_SYS_DIR}/actual_brightness
+
+# Make sure backlight driver is available
+if [ ! -e ${BL_SYS_FILE}  ]
+then
+    echo Backlight sysfs file not found... is driver installed?
+    echo ${BL_SYS_FILE}
+    exit 1
+fi
+
+max_bright=$(cat ${BL_MAX_FILE})
+min_bright=0
+
+setbl() {
+    case $1 in
+    min) v=${min_bright};;
+    max) v=${max_bright};;
+    *)   v=$1;;
+    esac
+    [ $v -gt ${max_bright}  ] && v=${max_bright}
+    [ $v -lt ${min_bright}  ] && v=${min_bright}
+    echo $v > ${BL_SYS_FILE}
+
+}
+
+getbl() {
+    echo Backlight set to $(cat $BL_ACT_FILE) / ${max_bright}
+
+}
+
+
+if [ "xtest" == "$1"  ]
+then
+    let delay=100000
+    let b=0
+    while [ $b -lt ${max_bright}  ]
+    do
+        setbl $b
+        let b=$b+1
+        usleep $delay
+    done
+    while [ $b -gt 0  ]
+    do
+        setbl $b
+        let b=$b-1
+        usleep $delay
+    done
+    setbl 0
+    sleep 2
+    setbl 20
+elif [ "x" != "x$1"  ]
+then
+    setbl $1
+fi
+getbl
+exit 0
