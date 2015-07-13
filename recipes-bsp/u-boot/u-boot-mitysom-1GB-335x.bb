@@ -2,7 +2,7 @@ require recipes-bsp/u-boot/u-boot-mitysom.inc
 
 DESCRIPTION = "u-boot bootloader for ARM MPU devices"
 
-COMPATIBLE_MACHINE = "mitysom_335x"
+COMPATIBLE_MACHINE = "mitysom-335x"
 
 SPL_BINARY = "MLO"
 UBOOT_SUFFIX = "img"

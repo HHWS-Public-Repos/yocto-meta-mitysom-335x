@@ -1,4 +1,4 @@
-This README file contains information on building the meta-mitysom_335x
+This README file contains information on building the meta-mitysom-335x
 BSP layer, and booting the images contained in the /binary directory.
 Please see the corresponding sections below for details.
 
@@ -34,11 +34,11 @@ Please see the meta-xxxx/MAINTAINERS file for more details.
 Table of Contents
 =================
 
-  I. Building the meta-mitysom_335x BSP layer
+  I. Building the meta-mitysom-335x BSP layer
  II. Booting the images in /binary
 
 
-I. Building the meta-mitysom_335x BSP layer
+I. Building the meta-mitysom-335x BSP layer
 ========================================
 
 --- replace with specific instructions for your layer ---
@@ -49,18 +49,18 @@ Package (BSP) Downloads' page of the Yocto Project website.
 
 Having done that, and assuming you extracted the BSP tarball contents
 at the top-level of your yocto build tree, you can build a
-mitysom_335x image by adding the location of the meta-mitysom_335x
+mitysom-335x image by adding the location of the meta-mitysom-335x
 layer to bblayers.conf, along with any other layers needed (to access
 common metadata shared between BSPs) e.g.:
 
   yocto/meta-xxxx \
-  yocto/meta-xxxx/meta-mitysom_335x \
+  yocto/meta-xxxx/meta-mitysom-335x \
 
-To enable the mitysom_335x layer, add the mitysom_335x MACHINE to local.conf:
+To enable the mitysom-335x layer, add the mitysom-335x MACHINE to local.conf:
 
-  MACHINE ?= "mitysom_335x"
+  MACHINE ?= "mitysom-335x"
 
-You should then be able to build a mitysom_335x image as such:
+You should then be able to build a mitysom-335x image as such:
 
   $ source oe-init-build-env
   $ bitbake core-image-sato
@@ -92,7 +92,7 @@ Under Linux, insert a USB flash drive.  Assuming the USB flash drive
 takes device /dev/sdf, use dd to copy the live image to it.  For
 example:
 
-# dd if=core-image-sato-mitysom_335x-20101207053738.hddimg of=/dev/sdf
+# dd if=core-image-sato-mitysom-335x-20101207053738.hddimg of=/dev/sdf
 # sync
 # eject /dev/sdf
 

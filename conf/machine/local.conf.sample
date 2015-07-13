@@ -39,7 +39,7 @@ PARALLEL_MAKE ?= "-j ${@oe.utils.cpu_count()}"
 # You need to select a specific machine to target the build with. There are a selection
 # of emulated machines available which can boot and run in the QEMU emulator:
 #
-MACHINE ?= "mitysom_335x"
+MACHINE ?= "mitysom-335x"
 #MACHINE ?= "qemuarm"
 #MACHINE ?= "qemumips"
 #MACHINE ?= "qemuppc"
@@ -135,7 +135,7 @@ PACKAGE_CLASSES ?= "package_ipk"
 # you can build the SDK packages for architectures other than the machine you are 
 # running the build on (i.e. building i686 packages on an x86_64 host).
 # Supported values are i686 and x86_64
-#SDKMACHINE ?= "i686"
+SDKMACHINE ?= "i686"
 
 #
 # Extra image configuration defaults

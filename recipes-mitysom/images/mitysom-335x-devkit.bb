@@ -39,6 +39,7 @@ IMAGE_INSTALL += \
      omap3-sgx-modules \
      opkg \
      packagegroup-core-qt4e \
+     pointercal-default \
      psplash \
      strace \
      tslib \

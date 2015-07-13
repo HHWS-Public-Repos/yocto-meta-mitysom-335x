@@ -36,10 +36,10 @@ DEPENDS = " am33x-cm3"
 
 SRC_URI = "git://support.criticallink.com/home/git/linux-mityarm-335x.git;protocol=git;bareclone=1;branch=${KBRANCH}"
 
-SRC_URI += "file://mitysom_335x.scc \
-            file://mitysom_335x.cfg \
-            file://mitysom_335x-user-config.cfg \
-            file://mitysom_335x-user-patches.scc \
+SRC_URI += "file://mitysom-335x.scc \
+            file://mitysom-335x.cfg \
+            file://mitysom-335x-user-config.cfg \
+            file://mitysom-335x-user-patches.scc \
            "
 
 KBRANCH = "mityarm-linux-v3.2"
@@ -53,7 +53,7 @@ SRCREV="${AUTOREV}"
 PR = "r0"
 PV = "${LINUX_VERSION}+git${SRCPV}"
 
-COMPATIBLE_MACHINE_mitysom_335x = "mitysom_335x"
+COMPATIBLE_MACHINE_mitysom-335x = "mitysom-335x"
 
 do_configure() {
         oe_runmake mityarm-335x-devkit_defconfig
