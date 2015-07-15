@@ -1,0 +1,4 @@
+origin	git://support.criticallink.com/home/git/meta-mitysom-5csx.git (fetch)
+origin	git://support.criticallink.com/home/git/meta-mitysom-5csx.git (push)
+
+* dora 988b40a [origin/dora] Added tune2fs to mitysom image

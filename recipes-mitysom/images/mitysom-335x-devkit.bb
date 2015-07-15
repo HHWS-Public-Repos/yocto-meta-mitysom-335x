@@ -16,8 +16,10 @@ IMAGE_INSTALL += \
      ethtool \
      fbset \
      file \
+     gadget-init-storage \
      gawk \
      gstreamer \
+     hokey-pokey \
      hostap-daemon \
      i2c-tools \
      iperf \
@@ -33,6 +35,7 @@ IMAGE_INSTALL += \
      makedevs \
      memtester \
      memtool \
+     modpwr \
      mtd-utils \
      ntp \
      ntpdate \
@@ -41,6 +44,7 @@ IMAGE_INSTALL += \
      packagegroup-core-qt4e \
      pointercal-default \
      psplash \
+     rs-485 \
      strace \
      tslib \
      tslib-calibrate \

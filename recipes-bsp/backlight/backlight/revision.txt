@@ -1,0 +1,14 @@
+Path: backlight
+Name: backlight
+URL: http://wanda/svn/mityomap/mityarm335x/trunk/sw/ARM/demo_gui/backlight
+Repository Root: http://wanda/svn/mityomap
+Repository UUID: 16e90064-2e80-4093-8293-ea3b6232564f
+Revision: 5992
+Node Kind: file
+Schedule: normal
+Last Changed Author: iskander
+Last Changed Rev: 2924
+Last Changed Date: 2012-06-14 14:41:26 -0400 (Thu, 14 Jun 2012)
+Text Last Updated: 2015-02-04 10:33:14 -0500 (Wed, 04 Feb 2015)
+Checksum: ea15fdbecab131d2a1a197f75ed015a5
+

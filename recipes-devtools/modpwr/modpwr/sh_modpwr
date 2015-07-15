@@ -1,0 +1,10 @@
+#!/bin/sh
+bus=1
+addr=0x48
+# u100_gain=27.0
+volts=$(ads1000 -b $bus -a $addr dump | awk '/voltage/ { print $3 / 27.0 }')
+ma=$(echo $volts | awk '{print $1 * 10000}')
+pwr=$(echo $ma | awk '{print $1 * 3.3}')
+printf "Voltage across R110  = %6.3f V\n" ${volts}
+printf "Current through R110 = %6.1f mA\n" ${ma}
+printf "power used by SOM    = %6.1f mW\n" ${pwr}

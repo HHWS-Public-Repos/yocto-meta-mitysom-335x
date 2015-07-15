@@ -1,0 +1,14 @@
+Path: sh_modpwr
+Name: sh_modpwr
+URL: http://wanda/svn/mityomap/mityarm335x_dev_io/trunk/sw/scripts/linux/sh_modpwr
+Repository Root: http://wanda/svn/mityomap
+Repository UUID: 16e90064-2e80-4093-8293-ea3b6232564f
+Revision: 6342
+Node Kind: file
+Schedule: normal
+Last Changed Author: iskander
+Last Changed Rev: 3772
+Last Changed Date: 2012-12-11 09:50:59 -0500 (Tue, 11 Dec 2012)
+Text Last Updated: 2015-07-14 14:14:30 -0400 (Tue, 14 Jul 2015)
+Checksum: 9f6e16fb75cc999834f97e3fd473584b
+
