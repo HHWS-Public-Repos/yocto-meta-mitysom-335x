@@ -1,4 +1,4 @@
-require ../../../meta/recipes-core/images/core-image-base.bb
+require ${COREBASE}/meta/recipes-core/images/core-image-base.bb
 
 IMAGE_INSTALL += \
     "alsa-lib \
