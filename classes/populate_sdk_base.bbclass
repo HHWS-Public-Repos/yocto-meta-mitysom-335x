@@ -108,6 +108,7 @@ fakeroot create_sdk_files() {
     # Install deploy directory
     install -d ${SDK_OUTPUT}/${SDKPATH}/deploy
     install -m 0755 ${DEPLOY_DIR_IMAGE}/uImage ${SDK_OUTPUT}/${SDKPATH}/deploy
+    install -m 0755 ${DEPLOY_DIR_IMAGE}/mitysom-335x-devkit-mitysom-335x.tar.bz2 ${SDK_OUTPUT}/${SDKPATH}/deploy
     install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND
     install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-mitysom-335x-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/MLO
     install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-mitysom-335x-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/u-boot.img
