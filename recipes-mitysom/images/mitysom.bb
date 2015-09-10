@@ -39,6 +39,7 @@ IMAGE_INSTALL += \
      omap3-sgx-modules \
      opkg \
      pointercal-default \
+     populate-dev \
      psplash \
      rs-485 \
      strace \
