@@ -12,7 +12,7 @@ S = "${WORKDIR}"
 
 do_install(){
     install -d ${D}${sysconfdir}
-    install -m 0755 pointercal ${D}${sysconfdir}
+    install -m 0644 pointercal ${D}${sysconfdir}
 }
 
 FILES_${PN} = "${sysconfdir}/pointercal"
