@@ -4,8 +4,8 @@ inherit meta toolchain-scripts
 # installed into the rootfs
 COMPLEMENTARY_GLOB[dev-pkgs] = '*-dev'
 COMPLEMENTARY_GLOB[staticdev-pkgs] = '*-staticdev'
-COMPLEMENTARY_GLOB[doc-pkgs] = '*-doc'
-COMPLEMENTARY_GLOB[dbg-pkgs] = '*-dbg'
+#COMPLEMENTARY_GLOB[doc-pkgs] = '*-doc'
+#COMPLEMENTARY_GLOB[dbg-pkgs] = '*-dbg'
 COMPLEMENTARY_GLOB[ptest-pkgs] = '*-ptest'
 
 def complementary_globs(featurevar, d):
@@ -17,7 +17,8 @@ def complementary_globs(featurevar, d):
             globs.append(glob)
     return ' '.join(globs)
 
-SDKIMAGE_FEATURES ??= "dev-pkgs dbg-pkgs"
+#SDKIMAGE_FEATURES ??= "dev-pkgs dbg-pkgs"
+SDKIMAGE_FEATURES ??= "dev-pkgs"
 SDKIMAGE_INSTALL_COMPLEMENTARY = '${@complementary_globs("SDKIMAGE_FEATURES", d)}'
 
 inherit populate_sdk_${IMAGE_PKGTYPE}
