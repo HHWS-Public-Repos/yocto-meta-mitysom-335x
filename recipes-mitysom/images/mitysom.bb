@@ -21,7 +21,7 @@ IMAGE_INSTALL += \
      hokey-pokey \
      hostap-daemon \
      i2c-tools \
-     iperf \
+     iperf3 \
      iptables \
      iw \
      kernel-modules \
