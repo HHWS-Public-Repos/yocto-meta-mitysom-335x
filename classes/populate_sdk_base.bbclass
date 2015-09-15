@@ -169,18 +169,17 @@ fakeroot create_sdk_files() {
 	# Include the target sysroot name..
 	echo ${REAL_MULTIMACH_TARGET_SYS} > ${SDK_OUTPUT}/${SDKPATH}/sysroot.txt
 
-    # Install deploy directory
-    install -m 0755 ${DEPLOY_DIR_IMAGE}/uImage ${SDK_OUTPUT}/${SDKPATH}/deploy
-    #install -m 0755 ${DEPLOY_DIR_IMAGE}/mitysom-335x-devkit-mitysom-335x.tar.bz2 ${SDK_OUTPUT}/${SDKPATH}/deploy
-    install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND
-    install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-mitysom-335x-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/MLO
-    install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-mitysom-335x-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/u-boot.img
-    install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/512MB_NAND
-    install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-mitysom-335x-1.0512MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/512MB_NAND/MLO
-    install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-mitysom-335x-1.0512MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/512MB_NAND/u-boot.img
-    install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND
-    install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-mitysom-335x-1.01GB* ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/MLO
-    install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-mitysom-335x-1.01GB* ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/u-boot.img
+	# Install deploy directory
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/uImage ${SDK_OUTPUT}/${SDKPATH}/deploy
+	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-mitysom-335x-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/MLO
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-mitysom-335x-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/u-boot.img
+	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/512MB_NAND
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-mitysom-335x-1.0512MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/512MB_NAND/MLO
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-mitysom-335x-1.0512MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/512MB_NAND/u-boot.img
+	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-mitysom-335x-1.01GB* ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/MLO
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-mitysom-335x-1.01GB* ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/u-boot.img
 }
 
 SDKTAROPTS = "--owner=root --group=root -j"
