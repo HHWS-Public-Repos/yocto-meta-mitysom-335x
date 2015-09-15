@@ -106,9 +106,6 @@ fakeroot create_sdk_files() {
 	escaped_sdkpath=$(echo ${SDKPATH} |sed -e "s:[\+\.]:\\\\\\\\\0:g")
 	sed -i -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:" ${SDK_OUTPUT}/${SDKPATH}/relocate_sdk.py
 
-	# DEBUG
-	echo "DEBUG SDK_OUTPUT ${SDK_OUTPUT}"
-
 	# Unpack the previously built rootfs for comparison to dev SDK rootfs.
 	mkdir -p ${SDK_OUTPUT}/${SDKPATH}/tmp_sdrootfs
 	cd ${SDK_OUTPUT}/${SDKPATH}/tmp_sdrootfs
