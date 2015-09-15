@@ -106,10 +106,75 @@ fakeroot create_sdk_files() {
 	escaped_sdkpath=$(echo ${SDKPATH} |sed -e "s:[\+\.]:\\\\\\\\\0:g")
 	sed -i -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:" ${SDK_OUTPUT}/${SDKPATH}/relocate_sdk.py
 
+	# DEBUG
+	echo "DEBUG SDK_OUTPUT ${SDK_OUTPUT}"
+
+	# Unpack the previously built rootfs for comparison to dev SDK rootfs.
+	mkdir -p ${SDK_OUTPUT}/${SDKPATH}/tmp_sdrootfs
+	cd ${SDK_OUTPUT}/${SDKPATH}/tmp_sdrootfs
+	tar xjf ${DEPLOY_DIR_IMAGE}/mitysom-335x-devkit-mitysom-335x.tar.bz2
+	
+	# Create a rootfs manifest file. This indicates files that must be preserved from the unpacked SD rootfs.
+	# This file will be used for packing the base SD rootfs on the yocto side.
+	rm -f ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest 2>/dev/null
+	
+	# Include any special devices in /dev.
+	for c in `find dev -type c` ; do echo $c >> ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest ; done
+	for b in `find dev -type b` ; do echo $b >> ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest ; done
+	for p in `find dev -type p` ; do echo $p >> ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest ; done
+	
+	# Include empty folders for rootfs skeleton.
+	for d in `find * -type d -empty` ; do echo $d >> ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest ; done
+	
+	# Include all symlinks because they're small. Probably not worth improving.
+	for l in `find * -type l` ; do echo $l >> ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest ; done
+	
+	# Create an appendFiles manifest file. This indicates files that must be appended to SD rootfs from the SDK payload.
+	# This file will be included with the SDK so the installer can append unpacked files to the SD rootfs.
+	rm -f ${SDK_OUTPUT}/${SDKPATH}/tmp_appendFiles.manifest 2>/dev/null
+	rm -f ${SDK_OUTPUT}/${SDKPATH}/tmp_appendFiles.tmp 2>/dev/null
+	
+	# Generate list of files at the root fs dir so we can find any files missing from the sdk dir
+	# Also create a sed pattern file in order to strike included files from the append manifest. This is because the append
+	# manifest will be based on everything not already included.
+	for f in `find * -type f` ; do
+		if [ ! -e ${SDK_OUTPUT}/${SDKPATH}/sysroots/${REAL_MULTIMACH_TARGET_SYS}/$f ]; then
+			echo $f >> ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest
+			echo "\\#^$f\$#d" >> ${SDK_OUTPUT}/${SDKPATH}/tmp_appendFiles.tmp
+		fi
+	done
+	
+	# Check for different files. Since we need to cmp the files we can't just generate a file list from the image recipe.
+	# Also create a sed pattern file in order to strike included files from the append manifest. Otherwise incorrect
+	# builds of the files will be appended.
+	for f in `find * -type f` ; do
+		if ! cmp $f ${SDK_OUTPUT}/${SDKPATH}/sysroots/${REAL_MULTIMACH_TARGET_SYS}/$f >/dev/null 2>&1 ; then
+			echo $f >> ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest
+			echo "\\#^$f\$#d" >> ${SDK_OUTPUT}/${SDKPATH}/tmp_appendFiles.tmp
+		fi
+	done
+	
+	# List files to be appended from SDK fs -- this means all files that should be in rootfs less those included.
+	find * -type f > ${SDK_OUTPUT}/${SDKPATH}/tmp_appendFiles.tmp2
+	sed -f ${SDK_OUTPUT}/${SDKPATH}/tmp_appendFiles.tmp < ${SDK_OUTPUT}/${SDKPATH}/tmp_appendFiles.tmp2 > ${SDK_OUTPUT}/${SDKPATH}/appendFiles.manifest
+	
+	# Generate the base rootfs without compression. It will be compressed along with the rest of the SDK and needs to be appended during the install.
+	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy
+	tar cf ${SDK_OUTPUT}/${SDKPATH}/deploy/mitysom-335x-devkit-mitysom-335x.tar -T ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest
+	
+	# Clean-up. All we have left is the generated base rootfs and the appendFiles.manifest, which will both be included in the SDK tarball.
+	cd -
+	rm -rf ${SDK_OUTPUT}/${SDKPATH}/tmp_sdrootfs
+	rm -f ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest
+	rm -f ${SDK_OUTPUT}/${SDKPATH}/tmp_appendFiles.tmp
+	rm -f ${SDK_OUTPUT}/${SDKPATH}/tmp_appendFiles.tmp2
+
+	# Include the target sysroot name..
+	echo ${REAL_MULTIMACH_TARGET_SYS} > ${SDK_OUTPUT}/${SDKPATH}/sysroot.txt
+
     # Install deploy directory
-    install -d ${SDK_OUTPUT}/${SDKPATH}/deploy
     install -m 0755 ${DEPLOY_DIR_IMAGE}/uImage ${SDK_OUTPUT}/${SDKPATH}/deploy
-    install -m 0755 ${DEPLOY_DIR_IMAGE}/mitysom-335x-devkit-mitysom-335x.tar.bz2 ${SDK_OUTPUT}/${SDKPATH}/deploy
+    #install -m 0755 ${DEPLOY_DIR_IMAGE}/mitysom-335x-devkit-mitysom-335x.tar.bz2 ${SDK_OUTPUT}/${SDKPATH}/deploy
     install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND
     install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-mitysom-335x-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/MLO
     install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-mitysom-335x-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/u-boot.img
@@ -133,6 +198,8 @@ fakeroot tar_sdk() {
 fakeroot create_shar() {
 	cat << "EOF" > ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
 #!/bin/bash
+
+printf "\n *** MitySOM 335x Yocto SDK Installer *** \n       (c) 2015 Critical Link, LLC\n\n"
 
 INST_ARCH=$(uname -m | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
 SDK_ARCH=$(echo ${SDK_ARCH} | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
@@ -256,7 +323,20 @@ printf "Extracting SDK..."
 tail -n +$payload_offset $0| $SUDO_EXEC tar xj -C $target_sdk_dir
 echo "done"
 
-printf "Setting it up..."
+# Generate the devkit root filesystem
+printf "Generating devkit filesystem..."
+sdkmarch=$(cat $target_sdk_dir/sysroot.txt)
+cd $target_sdk_dir/sysroots/$sdkmarch
+$SUDO_EXEC tar rf $target_sdk_dir/deploy/mitysom-335x-devkit-mitysom-335x.tar -T $target_sdk_dir/appendFiles.manifest
+unset sdkmarch
+cd - >/dev/null
+printf "done\n"
+
+printf "Compressing devkit filesystem..."
+$SUDO_EXEC bzip2 $target_sdk_dir/deploy/mitysom-335x-devkit-mitysom-335x.tar
+printf "done\n"
+
+printf "Setting up SDK..."
 # fix environment paths
 for env_setup_script in `ls $target_sdk_dir/environment-setup-*`; do
 	$SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" -i $env_setup_script
@@ -310,6 +390,8 @@ echo done
 # if he/she wants another location for the sdk
 if [ $savescripts = 0 ] ; then
 	$SUDO_EXEC rm ${env_setup_script%/*}/relocate_sdk.py ${env_setup_script%/*}/relocate_sdk.sh
+	$SUDO_EXEC rm $target_sdk_dir/sysroot.txt
+	$SUDO_EXEC rm $target_sdk_dir/appendFiles.manifest
 fi
 
 echo "SDK has been successfully set up and is ready to be used."
