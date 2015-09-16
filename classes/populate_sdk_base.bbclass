@@ -328,7 +328,9 @@ unset sdkmarch
 cd - >/dev/null
 printf "done\n"
 
+# Compress filesystem using bz2. Remove existing tarball if overwriting.
 printf "Compressing devkit filesystem..."
+$SUDO_EXEC rm -f $target_sdk_dir/deploy/mitysom-335x-devkit-mitysom-335x.tar.bz2 2>/dev/null
 $SUDO_EXEC bzip2 $target_sdk_dir/deploy/mitysom-335x-devkit-mitysom-335x.tar
 printf "done\n"
 
