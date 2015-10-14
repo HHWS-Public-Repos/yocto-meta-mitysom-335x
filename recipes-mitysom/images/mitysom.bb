@@ -39,6 +39,7 @@ IMAGE_INSTALL += \
      ntpdate \
      omap3-sgx-modules \
      opkg \
+     os-release \
      pointercal-default \
      populate-dev \
      psplash \
@@ -50,6 +51,7 @@ IMAGE_INSTALL += \
      vim \
      zip"
 
+# blank root password
 EXTRA_IMAGE_FEATURES = "debug-tweaks"
 
 DESCRIPTION = ""
