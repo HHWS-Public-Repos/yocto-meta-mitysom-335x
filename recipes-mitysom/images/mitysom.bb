@@ -6,6 +6,7 @@ IMAGE_INSTALL += \
      alsa-utils-aplay \
      alsa-utils-speakertest \
      bash \
+     bluez4 \
      bzip2 \
      canutils \
      curl \
@@ -49,6 +50,7 @@ IMAGE_INSTALL += \
      tslib-calibrate \
      tslib-tests \
      vim \
+     wpa-supplicant \
      zip"
 
 # blank root password
