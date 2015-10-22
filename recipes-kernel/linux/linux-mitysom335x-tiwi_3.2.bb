@@ -1,4 +1,4 @@
-require recipes-kernel/linux/linux-mitysom335x_3.2-devkit.bb
+require recipes-kernel/linux/linux-mitysom335x_3.2.inc
 
 PV = "${LINUX_VERSION}-tiwi+git${SRCPV}"
 

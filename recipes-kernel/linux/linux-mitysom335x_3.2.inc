@@ -36,6 +36,8 @@ DEPENDS = " am33x-cm3"
 
 SRC_URI = "git://support.criticallink.com/home/git/linux-mityarm-335x.git;protocol=git;bareclone=1;branch=${KBRANCH}"
 
+FILESEXTRAPATHS =. "${FILE_DIRNAME}/linux-mitysom335x:"
+
 SRC_URI += "file://mitysom-335x.scc \
             file://mitysom-335x.cfg \
             file://mitysom-335x-user-config.cfg \
@@ -51,7 +53,7 @@ LINUX_VERSION_EXTENSION ?= "3.2"
 SRCREV="${AUTOREV}"
 
 PR = "r0"
-PV = "${LINUX_VERSION}-devkit+git${SRCPV}"
+PV ?= "${LINUX_VERSION}-devkit+git${SRCPV}"
 
 COMPATIBLE_MACHINE_mitysom-335x = "mitysom-335x"
 
