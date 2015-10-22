@@ -51,7 +51,7 @@ LINUX_VERSION_EXTENSION ?= "3.2"
 SRCREV="${AUTOREV}"
 
 PR = "r0"
-PV = "${LINUX_VERSION}+git${SRCPV}"
+PV = "${LINUX_VERSION}-devkit+git${SRCPV}"
 
 COMPATIBLE_MACHINE_mitysom-335x = "mitysom-335x"
 
