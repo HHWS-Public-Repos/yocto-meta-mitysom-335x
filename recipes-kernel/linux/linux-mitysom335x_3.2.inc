@@ -30,9 +30,8 @@
 inherit kernel
 require recipes-kernel/linux/linux-yocto.inc
 
-# Add a run-time dependency for the PM firmware to be installed
-# on the target file system.
-DEPENDS = " am33x-cm3"
+DEPENDS += " am33x-cm3"
+RRECOMMENDS_${PN} += " kernel-modules omap3-sgx-modules"
 
 SRC_URI = "git://support.criticallink.com/home/git/linux-mityarm-335x.git;protocol=git;bareclone=1;branch=${KBRANCH}"
 
@@ -52,7 +51,7 @@ LINUX_VERSION_EXTENSION ?= "3.2"
 
 SRCREV="${AUTOREV}"
 
-PR = "r0"
+PR = "r1"
 PV ?= "${LINUX_VERSION}-devkit+git${SRCPV}"
 
 COMPATIBLE_MACHINE_mitysom-335x = "mitysom-335x"

@@ -26,7 +26,6 @@ IMAGE_INSTALL += \
      iperf3 \
      iptables \
      iw \
-     kernel-modules \
      libdrm \
      libgcc \
      libgles-omap3 \
@@ -38,7 +37,6 @@ IMAGE_INSTALL += \
      mtd-utils \
      ntp \
      ntpdate \
-     omap3-sgx-modules \
      opkg \
      os-release \
      pointercal-default \
