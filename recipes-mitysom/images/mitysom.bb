@@ -44,6 +44,7 @@ IMAGE_INSTALL += \
      psplash \
      rs-485 \
      strace \
+     ti-wifi-utils \
      tslib \
      tslib-calibrate \
      tslib-tests \
