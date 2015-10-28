@@ -12,7 +12,7 @@ fakeroot do_install(){
     install -d ${D}${base_prefix}/dev
     install -d ${D}${base_prefix}/dev/input
     mknod -m 640 ${D}${base_prefix}/dev/apm_bios c 10 134
-    mknod -m 640 ${D}${base_prefix}/dev/console c 5 1
+    mknod -m 600 ${D}${base_prefix}/dev/console c 5 1
     mknod -m 600 ${D}${base_prefix}/dev/fb0 c 29 0
     mknod -m 640 ${D}${base_prefix}/dev/hda b 3 0
     mknod -m 640 ${D}${base_prefix}/dev/hda1 b 3 1
@@ -76,16 +76,26 @@ fakeroot do_install(){
     mknod -m 640 ${D}${base_prefix}/dev/ram2 b 1 2
     mknod -m 640 ${D}${base_prefix}/dev/ram3 b 1 3
     mknod -m 644 ${D}${base_prefix}/dev/random c 1 8
-    mknod -m 640 ${D}${base_prefix}/dev/tty c 4 0
-    mknod -m 644 ${D}${base_prefix}/dev/tty1 c 4 1
-    mknod -m 644 ${D}${base_prefix}/dev/tty2 c 4 2
-    mknod -m 644 ${D}${base_prefix}/dev/tty3 c 4 3
-    mknod -m 644 ${D}${base_prefix}/dev/tty4 c 4 4
-    mknod -m 644 ${D}${base_prefix}/dev/tty5 c 4 5
-    mknod -m 644 ${D}${base_prefix}/dev/tty6 c 4 6
-    mknod -m 644 ${D}${base_prefix}/dev/tty7 c 4 7
-    mknod -m 644 ${D}${base_prefix}/dev/tty8 c 4 8
-    mknod -m 640 ${D}${base_prefix}/dev/ttyS0 c 4 64
+    mknod -m 666 ${D}${base_prefix}/dev/tty c 5 0
+    mknod -m 620 ${D}${base_prefix}/dev/tty0 c 4 0
+    mknod -m 620 ${D}${base_prefix}/dev/tty1 c 4 1
+    mknod -m 620 ${D}${base_prefix}/dev/tty2 c 4 2
+    mknod -m 620 ${D}${base_prefix}/dev/tty3 c 4 3
+    mknod -m 620 ${D}${base_prefix}/dev/tty4 c 4 4
+    mknod -m 620 ${D}${base_prefix}/dev/tty5 c 4 5
+    mknod -m 620 ${D}${base_prefix}/dev/tty6 c 4 6
+    mknod -m 620 ${D}${base_prefix}/dev/tty7 c 4 7
+    mknod -m 620 ${D}${base_prefix}/dev/tty8 c 4 8
+    mknod -m 600 ${D}${base_prefix}/dev/ttyO0 c 252 0
+    mknod -m 660 ${D}${base_prefix}/dev/ttyO1 c 252 1
+    mknod -m 660 ${D}${base_prefix}/dev/ttyO2 c 252 2
+    mknod -m 660 ${D}${base_prefix}/dev/ttyO3 c 252 3
+    mknod -m 660 ${D}${base_prefix}/dev/ttyO4 c 252 4
+    mknod -m 660 ${D}${base_prefix}/dev/ttyO5 c 252 5
+    mknod -m 660 ${D}${base_prefix}/dev/ttyS0 c 4 64
+    mknod -m 660 ${D}${base_prefix}/dev/ttyS1 c 4 65
+    mknod -m 660 ${D}${base_prefix}/dev/ttyS2 c 4 66
+    mknod -m 660 ${D}${base_prefix}/dev/ttyS3 c 4 67
     mknod -m 640 ${D}${base_prefix}/dev/ttySA0 c 204 5
     mknod -m 644 ${D}${base_prefix}/dev/urandom c 1 9
     mknod -m 644 ${D}${base_prefix}/dev/zero c 1 5
@@ -166,7 +176,16 @@ FILES_${PN} = "${base_prefix}/dev/apm_bios \
                ${base_prefix}/dev/tty6 \
                ${base_prefix}/dev/tty7 \
                ${base_prefix}/dev/tty8 \
+               ${base_prefix}/dev/ttyO0 \
+               ${base_prefix}/dev/ttyO1 \
+               ${base_prefix}/dev/ttyO2 \
+               ${base_prefix}/dev/ttyO3 \
+               ${base_prefix}/dev/ttyO4 \
+               ${base_prefix}/dev/ttyO5 \
                ${base_prefix}/dev/ttyS0 \
+               ${base_prefix}/dev/ttyS1 \
+               ${base_prefix}/dev/ttyS2 \
+               ${base_prefix}/dev/ttyS3 \
                ${base_prefix}/dev/ttySA0 \
                ${base_prefix}/dev/urandom \
                ${base_prefix}/dev/zero"

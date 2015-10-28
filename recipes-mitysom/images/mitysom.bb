@@ -10,9 +10,14 @@ IMAGE_INSTALL += \
      bzip2 \
      canutils \
      curl \
+     devmem2 \
      dhcp-client \
      dhcp-server \
      dropbear \
+     e2fsprogs \
+     e2fsprogs-e2fsck \
+     e2fsprogs-mke2fs \
+     e2fsprogs-tune2fs \
      ethtool \
      fbset \
      file \
@@ -31,9 +36,11 @@ IMAGE_INSTALL += \
      libgles-omap3 \
      libgles-omap3-rawdemos \
      linux-firmware-wl12xx \
+     ltrace \
      makedevs \
      memtester \
      memtool \
+     module-init-tools \
      mtd-utils \
      ntp \
      ntpdate \
@@ -44,10 +51,13 @@ IMAGE_INSTALL += \
      psplash \
      rs-485 \
      strace \
+     tcpdump \
      ti-wifi-utils \
      tslib \
      tslib-calibrate \
      tslib-tests \
+     udev-extraconf \
+     usbutils \
      vim \
      wpa-supplicant \
      zip"
