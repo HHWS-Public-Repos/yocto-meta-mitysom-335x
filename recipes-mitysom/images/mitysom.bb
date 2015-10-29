@@ -7,6 +7,7 @@ IMAGE_INSTALL += \
      alsa-utils-speakertest \
      bash \
      bluez4 \
+     bt-firmware \
      bzip2 \
      canutils \
      curl \
@@ -35,7 +36,6 @@ IMAGE_INSTALL += \
      libgcc \
      libgles-omap3 \
      libgles-omap3-rawdemos \
-     linux-firmware-wl12xx \
      ltrace \
      makedevs \
      memtester \
@@ -59,6 +59,7 @@ IMAGE_INSTALL += \
      udev-extraconf \
      usbutils \
      vim \
+     wl18xx-target-scripts \
      wpa-supplicant \
      zip"
 
