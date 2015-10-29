@@ -6,6 +6,7 @@ IMAGE_INSTALL += \
      alsa-utils-aplay \
      alsa-utils-speakertest \
      bash \
+     bluetooth-scripts \
      bluez4 \
      bt-firmware \
      bzip2 \
