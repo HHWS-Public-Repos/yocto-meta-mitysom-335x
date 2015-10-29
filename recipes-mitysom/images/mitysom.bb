@@ -8,6 +8,7 @@ IMAGE_INSTALL += \
      bash \
      bluetooth-scripts \
      bluez4 \
+     bluez4-agent \
      bt-firmware \
      bzip2 \
      canutils \
@@ -61,7 +62,6 @@ IMAGE_INSTALL += \
      udev-extraconf \
      usbutils \
      vim \
-     wl18xx-target-scripts \
      wpa-supplicant \
      zip"
 
