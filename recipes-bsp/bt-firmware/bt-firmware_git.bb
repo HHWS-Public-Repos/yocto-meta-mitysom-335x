@@ -4,11 +4,8 @@ LIC_FILES_CHKSUM = "file://am335x/LICENCE;md5=1c9961176d6529283e0d0c983be41b45"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-# This recipe provides the latest firmware files for wl12xx.
-# Therefore, use the contents of this recipe instead of the contents
-# of linux-firmware-wl12xx.
-RCONFLICTS_${PN} = "linux-firmware-wl12xx"
-RREPLACES_${PN}  = "linux-firmware-wl12xx"
+#RCONFLICTS_${PN} = "linux-firmware-wl12xx"
+#RREPLACES_${PN}  = "linux-firmware-wl12xx"
 
 PV = "R8.5+git${SRCPV}"
 PR = "r8"
@@ -34,6 +31,8 @@ do_compile() {
 do_install() {
     install -d ${D}${base_libdir}/firmware
     oe_runmake 'DEST_DIR=${D}' 'BASE_LIB_DIR=${base_libdir}' 'PLATFORM=${PLATFORM}' install
+    # This firmware conflicts with linux-firmware-wl12xx. Skip it.
+    rm ${D}${base_libdir}/firmware/TIInit_7.2.31.bts
 }
 
 FILES_${PN} += "${base_libdir}/firmware"

@@ -36,6 +36,7 @@ IMAGE_INSTALL += \
      libgcc \
      libgles-omap3 \
      libgles-omap3-rawdemos \
+     linux-firmware-wl12xx \
      ltrace \
      makedevs \
      memtester \
