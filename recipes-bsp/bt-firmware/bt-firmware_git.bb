@@ -32,7 +32,7 @@ do_install() {
     install -d ${D}${base_libdir}/firmware
     oe_runmake 'DEST_DIR=${D}' 'BASE_LIB_DIR=${base_libdir}' 'PLATFORM=${PLATFORM}' install
     # This firmware conflicts with linux-firmware-wl12xx. Skip it.
-    rm ${D}${base_libdir}/firmware/TIInit_7.2.31.bts
+    rm -f ${D}${base_libdir}/firmware/TIInit_7.2.31.bts
 }
 
 FILES_${PN} += "${base_libdir}/firmware"

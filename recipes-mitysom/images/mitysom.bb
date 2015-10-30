@@ -59,6 +59,7 @@ IMAGE_INSTALL += \
      tslib \
      tslib-calibrate \
      tslib-tests \
+     udev-bluetooth \
      udev-extraconf \
      usbutils \
      vim \
