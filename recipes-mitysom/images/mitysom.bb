@@ -1,7 +1,6 @@
 require ${COREBASE}/meta/recipes-core/images/core-image-base.bb
 
 IMAGE_INSTALL += "\
-     packagegroup-core-boot \
      packagegroup-criticallink-base \
      packagegroup-criticallink-console \
      packagegroup-criticallink-network \
