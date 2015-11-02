@@ -7,12 +7,7 @@ IMAGE_INSTALL += "\
      packagegroup-criticallink-platform-am335x \
      packagegroup-criticallink-util \
      gadget-init-storage \
-     gstreamer \
-     hokey-pokey \
      makedevs \
-     opkg \
-     pointercal-default \
-     usbutils \
 "
 
 # blank root password

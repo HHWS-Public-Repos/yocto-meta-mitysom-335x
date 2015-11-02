@@ -9,14 +9,17 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 CL_AM335X_BASE = "\
     bluetooth-scripts \
     bt-firmware \
-    libdrm \
+    gstreamer \
+    hokey-pokey \
     libgles-omap3 \
     libgles-omap3-rawdemos \
     linux-firmware-wl12xx \
+    pointercal-default \
     populate-dev \
     ti-wifi-utils \
     udev-bluetooth \
     udev-extraconf \
+    usbutils \
 "
 
 RDEPENDS_${PN} = "\
