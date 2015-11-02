@@ -45,6 +45,7 @@ IMAGE_INSTALL += \
      memtool \
      module-init-tools \
      mtd-utils \
+     mtd-utils-ubifs \
      ntp \
      ntpdate \
      opkg \
