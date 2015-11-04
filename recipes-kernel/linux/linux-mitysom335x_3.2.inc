@@ -59,7 +59,6 @@ COMPATIBLE_MACHINE_mitysom-335x = "mitysom-335x"
 KERNEL_DEFCONFIG ?= "mityarm-335x-devkit_defconfig"
 
 do_configure() {
-	kernel_do_configure
 	unset LDFLAGS
         oe_runmake ${KERNEL_DEFCONFIG}
 }
