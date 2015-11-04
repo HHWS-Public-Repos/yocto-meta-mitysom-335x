@@ -1,16 +1,21 @@
-require ${COREBASE}/meta/recipes-core/images/core-image-base.bb
+SUMMARY = "MitySOM 335x Devkit image."
+LICENSE = "MIT"
 
-IMAGE_INSTALL += "\
-     packagegroup-criticallink-base \
-     packagegroup-criticallink-console \
-     packagegroup-criticallink-network \
-     packagegroup-criticallink-platform-am335x \
-     packagegroup-criticallink-util \
-     gadget-init-storage \
-     makedevs \
+IMAGE_FEATURES += "\
+    debug-tweaks \
+    splash \
+    package-management \
+    ssh-server-dropbear \
 "
 
-# blank root password
-EXTRA_IMAGE_FEATURES = "debug-tweaks"
+IMAGE_INSTALL += "\
+    packagegroup-criticallink-base \
+    packagegroup-criticallink-console \
+    packagegroup-criticallink-network \
+    packagegroup-criticallink-platform-am335x \
+    packagegroup-criticallink-util \
+    gadget-init-storage \
+    makedevs \
+"
 
-DESCRIPTION = ""
+inherit core-image
