@@ -38,7 +38,7 @@ TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
 TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
 
 SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
-SDK_DEPENDS = "virtual/fakeroot-native sed-native"
+SDK_DEPENDS = "virtual/fakeroot-native sed-native sdk-files:do_deploy"
 
 # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PACKAGE_ARCH as it
 # could be set to the MACHINE_ARCH
@@ -113,7 +113,7 @@ fakeroot create_sdk_files() {
 	
 	# Create a rootfs manifest file. This indicates files that must be preserved from the unpacked SD rootfs.
 	# This file will be used for packing the base SD rootfs on the yocto side.
-	rm -f ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest 2>/dev/null
+	rm -f ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest
 	
 	# Include any special devices in /dev.
 	for c in `find dev -type c` ; do echo $c >> ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest ; done
@@ -180,6 +180,18 @@ fakeroot create_sdk_files() {
 	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND
 	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-mitysom-335x-1.01GB* ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/MLO
 	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-mitysom-335x-1.01GB* ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/u-boot.img
+
+	# Install additional files from SVN
+	if [ -e ${DEPLOY_DIR_IMAGE}/mdk ]; then
+		cd ${DEPLOY_DIR_IMAGE}/mdk
+		for f in `find * -type d` ; do
+			install -d ${SDK_OUTPUT}/${SDKPATH}/$f
+		done
+		for f in `find * -type f` ; do
+			install -m 0755 $f ${SDK_OUTPUT}/${SDKPATH}/$f
+		done
+		cd -
+	fi
 }
 
 SDKTAROPTS = "--owner=root --group=root -j"
@@ -195,7 +207,7 @@ fakeroot create_shar() {
 	cat << "EOF" > ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
 #!/bin/bash
 
-printf "\n *** MitySOM 335x Yocto SDK Installer *** \n       (c) 2015 Critical Link, LLC\n\n"
+printf "\n *** MitySOM 335x Yocto MDK Installer *** \n       (c) 2015 Critical Link, LLC\n\n"
 
 INST_ARCH=$(uname -m | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
 SDK_ARCH=$(echo ${SDK_ARCH} | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
@@ -251,7 +263,7 @@ if [ $verbose = 1 ] ; then
 	set -x
 fi
 
-printf "Enter target directory for SDK (default: $DEFAULT_INSTALL_DIR): "
+printf "Enter target directory for MDK (default: $DEFAULT_INSTALL_DIR): "
 if [ "$target_sdk_dir" = "" ]; then
 	read target_sdk_dir
 	[ "$target_sdk_dir" = "" ] && target_sdk_dir=$DEFAULT_INSTALL_DIR
@@ -277,7 +289,7 @@ if [ -e "$target_sdk_dir/environment-setup-${REAL_MULTIMACH_TARGET_SYS}" ]; then
 
 	default_answer="n"
 else
-	printf "You are about to install the SDK to \"$target_sdk_dir\". Proceed[Y/n]?"
+	printf "You are about to install the MitySOM 335x MDK to \"$target_sdk_dir\". Proceed[Y/n]?"
 
 	default_answer="y"
 fi
@@ -315,7 +327,7 @@ fi
 
 payload_offset=$(($(grep -na -m1 "^MARKER:$" $0|cut -d':' -f1) + 1))
 
-printf "Extracting SDK..."
+printf "Extracting MDK..."
 tail -n +$payload_offset $0| $SUDO_EXEC tar xj -C $target_sdk_dir
 echo "done"
 
@@ -334,7 +346,7 @@ $SUDO_EXEC rm -f $target_sdk_dir/deploy/mitysom-335x-devkit-mitysom-335x.tar.bz2
 $SUDO_EXEC bzip2 $target_sdk_dir/deploy/mitysom-335x-devkit-mitysom-335x.tar
 printf "done\n"
 
-printf "Setting up SDK..."
+printf "Setting up MDK..."
 # fix environment paths
 for env_setup_script in `ls $target_sdk_dir/environment-setup-*`; do
 	$SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" -i $env_setup_script
