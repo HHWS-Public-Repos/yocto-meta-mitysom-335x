@@ -9,8 +9,10 @@ BBLAYERS ?= " \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-mitysom-335x \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-criticallink \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-ti \
+  /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-linaro/meta-linaro-toolchain \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-openembedded/meta-oe \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-openembedded/meta-networking \
+  /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-openembedded/toolchain-layer \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-yocto \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-yocto-bsp \
