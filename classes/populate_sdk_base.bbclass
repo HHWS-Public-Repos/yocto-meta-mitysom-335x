@@ -109,7 +109,7 @@ fakeroot create_sdk_files() {
 	# Unpack the previously built rootfs for comparison to dev SDK rootfs.
 	mkdir -p ${SDK_OUTPUT}/${SDKPATH}/tmp_sdrootfs
 	cd ${SDK_OUTPUT}/${SDKPATH}/tmp_sdrootfs
-	tar xjf ${DEPLOY_DIR_IMAGE}/mitysom-335x-devkit-mitysom-335x.tar.bz2
+	tar xjf ${DEPLOY_DIR_IMAGE}/${PN}-mitysom-335x.tar.bz2
 	
 	# Create a rootfs manifest file. This indicates files that must be preserved from the unpacked SD rootfs.
 	# This file will be used for packing the base SD rootfs on the yocto side.
@@ -157,7 +157,7 @@ fakeroot create_sdk_files() {
 	
 	# Generate the base rootfs without compression. It will be compressed along with the rest of the SDK and needs to be appended during the install.
 	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy
-	tar cf ${SDK_OUTPUT}/${SDKPATH}/deploy/mitysom-335x-devkit-mitysom-335x.tar -T ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest
+	tar cf ${SDK_OUTPUT}/${SDKPATH}/deploy/${PN}-mitysom-335x.tar -T ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest
 	
 	# Clean-up. All we have left is the generated base rootfs and the appendFiles.manifest, which will both be included in the SDK tarball.
 	cd -
@@ -284,7 +284,7 @@ if [ -n "$(echo $target_sdk_dir|grep ' ')" ]; then
 fi
 
 if [ -e "$target_sdk_dir/environment-setup-${REAL_MULTIMACH_TARGET_SYS}" ]; then
-	echo "The directory \"$target_sdk_dir\" already contains a SDK for this architecture."
+	echo "The directory \"$target_sdk_dir\" already contains an MDK for this platform."
 	printf "If you continue, existing files will be overwritten! Proceed[y/N]?"
 
 	default_answer="n"
@@ -335,15 +335,15 @@ echo "done"
 printf "Generating devkit filesystem..."
 sdkmarch=$(cat $target_sdk_dir/sysroot.txt)
 cd $target_sdk_dir/sysroots/$sdkmarch
-$SUDO_EXEC tar rf $target_sdk_dir/deploy/mitysom-335x-devkit-mitysom-335x.tar -T $target_sdk_dir/appendFiles.manifest
+$SUDO_EXEC tar rf $target_sdk_dir/deploy/${PN}-mitysom-335x.tar -T $target_sdk_dir/appendFiles.manifest
 unset sdkmarch
 cd - >/dev/null
 printf "done\n"
 
 # Compress filesystem using bz2. Remove existing tarball if overwriting.
 printf "Compressing devkit filesystem..."
-$SUDO_EXEC rm -f $target_sdk_dir/deploy/mitysom-335x-devkit-mitysom-335x.tar.bz2 2>/dev/null
-$SUDO_EXEC bzip2 $target_sdk_dir/deploy/mitysom-335x-devkit-mitysom-335x.tar
+$SUDO_EXEC rm -f $target_sdk_dir/deploy/${PN}-mitysom-335x.tar.bz2 2>/dev/null
+$SUDO_EXEC bzip2 $target_sdk_dir/deploy/${PN}-mitysom-335x.tar
 printf "done\n"
 
 printf "Setting up MDK..."
@@ -356,14 +356,14 @@ done
 native_sysroot=$($SUDO_EXEC cat $env_setup_script |grep 'OECORE_NATIVE_SYSROOT='|cut -d'=' -f2|tr -d '"')
 dl_path=$($SUDO_EXEC find $native_sysroot/lib -name "ld-linux*")
 if [ "$dl_path" = "" ] ; then
-	echo "SDK could not be set up. Relocate script unable to find ld-linux.so. Abort!"
+	echo "MDK could not be set up. Relocate script unable to find ld-linux.so. Abort!"
 	exit 1
 fi
 executable_files=$($SUDO_EXEC find $native_sysroot -type f -perm /111 -exec file '{}' \;| grep "\(executable\|dynamically linked\)" | cut -f 1 -d ':') 
 
 tdir=`mktemp -d`
 if [ x$tdir = x ] ; then
-   echo "SDK relocate failed, could not create a temporary directory"
+   echo "MDK relocate failed, could not create a temporary directory"
    exit 1
 fi
 echo "#!/bin/bash" > $tdir/relocate_sdk.sh
@@ -374,7 +374,7 @@ rm -rf $tdir
 if [ $relocate = 1 ] ; then
 	$SUDO_EXEC ${env_setup_script%/*}/relocate_sdk.sh
 	if [ $? -ne 0 ]; then
-		echo "SDK could not be set up. Relocate script failed. Abort!"
+		echo "MDK could not be set up. Relocate script failed. Abort!"
 		exit 1
 	fi
 fi
@@ -404,7 +404,7 @@ if [ $savescripts = 0 ] ; then
 	$SUDO_EXEC rm $target_sdk_dir/appendFiles.manifest
 fi
 
-echo "SDK has been successfully set up and is ready to be used."
+echo "MDK has been successfully set up and is ready to be used."
 
 exit 0
 
