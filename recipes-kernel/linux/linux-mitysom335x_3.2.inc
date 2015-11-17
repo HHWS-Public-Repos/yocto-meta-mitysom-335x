@@ -57,6 +57,7 @@ PV ?= "${LINUX_VERSION}-devkit+git${SRCPV}"
 COMPATIBLE_MACHINE_mitysom-335x = "mitysom-335x"
 
 KERNEL_DEFCONFIG ?= "mityarm-335x-devkit_defconfig"
+KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}_devkit"
 
 do_configure() {
 	unset LDFLAGS

@@ -170,7 +170,9 @@ fakeroot create_sdk_files() {
 	echo ${REAL_MULTIMACH_TARGET_SYS} > ${SDK_OUTPUT}/${SDKPATH}/sysroot.txt
 
 	# Install deploy directory
-	install -m 0755 ${DEPLOY_DIR_IMAGE}/uImage ${SDK_OUTPUT}/${SDKPATH}/deploy
+	for f in ${DEPLOY_DIR_IMAGE}/uImage_* ; do
+		install -m 0755 $f ${SDK_OUTPUT}/${SDKPATH}/deploy
+	done
 	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND
 	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-mitysom-335x-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/MLO
 	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-mitysom-335x-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/u-boot.img
