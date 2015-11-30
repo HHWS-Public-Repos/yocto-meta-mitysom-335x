@@ -8,6 +8,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 CL_AM335X_BASE = "\
     bluetooth-scripts \
+    bluez4-agent \
     bt-firmware \
     gstreamer \
     hokey-pokey \
