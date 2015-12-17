@@ -38,7 +38,7 @@ TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
 TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
 
 SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
-SDK_DEPENDS = "virtual/fakeroot-native sed-native sdk-files:do_deploy"
+SDK_DEPENDS = "virtual/fakeroot-native sed-native sdk-files:do_deploy ${PN}:do_rootfs"
 
 # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PACKAGE_ARCH as it
 # could be set to the MACHINE_ARCH
@@ -109,28 +109,28 @@ fakeroot create_sdk_files() {
 	# Unpack the previously built rootfs for comparison to dev SDK rootfs.
 	mkdir -p ${SDK_OUTPUT}/${SDKPATH}/tmp_sdrootfs
 	cd ${SDK_OUTPUT}/${SDKPATH}/tmp_sdrootfs
-	tar xjf ${DEPLOY_DIR_IMAGE}/${PN}-mitysom-335x.tar.bz2
-	
+	tar xjf ${DEPLOY_DIR_IMAGE}/${PN}-${MACHINE_ARCH}.tar.bz2
+
 	# Create a rootfs manifest file. This indicates files that must be preserved from the unpacked SD rootfs.
 	# This file will be used for packing the base SD rootfs on the yocto side.
 	rm -f ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest
-	
+
 	# Include any special devices in /dev.
 	for c in `find dev -type c` ; do echo $c >> ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest ; done
 	for b in `find dev -type b` ; do echo $b >> ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest ; done
 	for p in `find dev -type p` ; do echo $p >> ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest ; done
-	
+
 	# Include empty folders for rootfs skeleton.
 	for d in `find * -type d -empty` ; do echo $d >> ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest ; done
-	
+
 	# Include all symlinks because they're small. Probably not worth improving.
 	for l in `find * -type l` ; do echo $l >> ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest ; done
-	
+
 	# Create an appendFiles manifest file. This indicates files that must be appended to SD rootfs from the SDK payload.
 	# This file will be included with the SDK so the installer can append unpacked files to the SD rootfs.
 	rm -f ${SDK_OUTPUT}/${SDKPATH}/tmp_appendFiles.manifest 2>/dev/null
 	rm -f ${SDK_OUTPUT}/${SDKPATH}/tmp_appendFiles.tmp 2>/dev/null
-	
+
 	# Generate list of files at the root fs dir so we can find any files missing from the sdk dir
 	# Also create a sed pattern file in order to strike included files from the append manifest. This is because the append
 	# manifest will be based on everything not already included.
@@ -140,7 +140,7 @@ fakeroot create_sdk_files() {
 			echo "\\#^$f\$#d" >> ${SDK_OUTPUT}/${SDKPATH}/tmp_appendFiles.tmp
 		fi
 	done
-	
+
 	# Check for different files. Since we need to cmp the files we can't just generate a file list from the image recipe.
 	# Also create a sed pattern file in order to strike included files from the append manifest. Otherwise incorrect
 	# builds of the files will be appended.
@@ -150,15 +150,15 @@ fakeroot create_sdk_files() {
 			echo "\\#^$f\$#d" >> ${SDK_OUTPUT}/${SDKPATH}/tmp_appendFiles.tmp
 		fi
 	done
-	
+
 	# List files to be appended from SDK fs -- this means all files that should be in rootfs less those included.
 	find * -type f > ${SDK_OUTPUT}/${SDKPATH}/tmp_appendFiles.tmp2
 	sed -f ${SDK_OUTPUT}/${SDKPATH}/tmp_appendFiles.tmp < ${SDK_OUTPUT}/${SDKPATH}/tmp_appendFiles.tmp2 > ${SDK_OUTPUT}/${SDKPATH}/appendFiles.manifest
-	
+
 	# Generate the base rootfs without compression. It will be compressed along with the rest of the SDK and needs to be appended during the install.
 	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy
-	tar cf ${SDK_OUTPUT}/${SDKPATH}/deploy/${PN}-mitysom-335x.tar -T ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest
-	
+	tar cf ${SDK_OUTPUT}/${SDKPATH}/deploy/${PN}-${MACHINE_ARCH}.tar -T ${SDK_OUTPUT}/${SDKPATH}/tmp_rootFs.manifest
+
 	# Clean-up. All we have left is the generated base rootfs and the appendFiles.manifest, which will both be included in the SDK tarball.
 	cd -
 	rm -rf ${SDK_OUTPUT}/${SDKPATH}/tmp_sdrootfs
@@ -174,14 +174,14 @@ fakeroot create_sdk_files() {
 		install -m 0755 $f ${SDK_OUTPUT}/${SDKPATH}/deploy
 	done
 	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND
-	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-mitysom-335x-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/MLO
-	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-mitysom-335x-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/u-boot.img
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-${MACHINE_ARCH}-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/MLO
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE_ARCH}-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/u-boot.img
 	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/512MB_NAND
-	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-mitysom-335x-1.0512MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/512MB_NAND/MLO
-	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-mitysom-335x-1.0512MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/512MB_NAND/u-boot.img
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-${MACHINE_ARCH}-1.0512MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/512MB_NAND/MLO
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE_ARCH}-1.0512MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/512MB_NAND/u-boot.img
 	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND
-	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-mitysom-335x-1.01GB* ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/MLO
-	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-mitysom-335x-1.01GB* ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/u-boot.img
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-${MACHINE_ARCH}-1.01GB* ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/MLO
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE_ARCH}-1.01GB* ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/u-boot.img
 
 	# Install additional files from SVN
 	if [ -e ${DEPLOY_DIR_IMAGE}/mdk ]; then
@@ -209,7 +209,7 @@ fakeroot create_shar() {
 	cat << "EOF" > ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
 #!/bin/bash
 
-printf "\n *** MitySOM 335x Yocto MDK Installer *** \n       (c) 2015 Critical Link, LLC\n\n"
+printf "\n *** ${MACHINE_DISPLAYNAME} Yocto MDK Installer *** \n       (c) 2015 Critical Link, LLC\n\n"
 
 INST_ARCH=$(uname -m | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
 SDK_ARCH=$(echo ${SDK_ARCH} | sed -e "s/i[3-6]86/ix86/" -e "s/x86[-_]64/x86_64/")
@@ -291,7 +291,7 @@ if [ -e "$target_sdk_dir/environment-setup-${REAL_MULTIMACH_TARGET_SYS}" ]; then
 
 	default_answer="n"
 else
-	printf "You are about to install the MitySOM 335x MDK to \"$target_sdk_dir\". Proceed[Y/n]?"
+	printf "You are about to install the ${MACHINE_DISPLAYNAME} MDK to \"$target_sdk_dir\". Proceed[Y/n]?"
 
 	default_answer="y"
 fi
@@ -337,15 +337,15 @@ echo "done"
 printf "Generating devkit filesystem..."
 sdkmarch=$(cat $target_sdk_dir/sysroot.txt)
 cd $target_sdk_dir/sysroots/$sdkmarch
-$SUDO_EXEC tar rf $target_sdk_dir/deploy/${PN}-mitysom-335x.tar -T $target_sdk_dir/appendFiles.manifest
+$SUDO_EXEC tar rf $target_sdk_dir/deploy/${PN}-${MACHINE_ARCH}.tar -T $target_sdk_dir/appendFiles.manifest
 unset sdkmarch
 cd - >/dev/null
 printf "done\n"
 
 # Compress filesystem using bz2. Remove existing tarball if overwriting.
 printf "Compressing devkit filesystem..."
-$SUDO_EXEC rm -f $target_sdk_dir/deploy/${PN}-mitysom-335x.tar.bz2 2>/dev/null
-$SUDO_EXEC bzip2 $target_sdk_dir/deploy/${PN}-mitysom-335x.tar
+$SUDO_EXEC rm -f $target_sdk_dir/deploy/${PN}-${MACHINE_ARCH}.tar.bz2 2>/dev/null
+$SUDO_EXEC bzip2 $target_sdk_dir/deploy/${PN}-${MACHINE_ARCH}.tar
 printf "done\n"
 
 printf "Setting up MDK..."
