@@ -10,16 +10,16 @@ fakeroot create_sdk_files_platform() {
 	done
 
 	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND
-	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-${MACHINE_ARCH}-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/MLO
-	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE_ARCH}-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/u-boot.img
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-${MACHINE}-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/MLO
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}-1.0256MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/u-boot.img
 
 	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/512MB_NAND
-	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-${MACHINE_ARCH}-1.0512MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/512MB_NAND/MLO
-	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE_ARCH}-1.0512MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/512MB_NAND/u-boot.img
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-${MACHINE}-1.0512MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/512MB_NAND/MLO
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}-1.0512MB* ${SDK_OUTPUT}/${SDKPATH}/deploy/512MB_NAND/u-boot.img
 
 	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND
-	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-${MACHINE_ARCH}-1.01GB* ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/MLO
-	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE_ARCH}-1.01GB* ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/u-boot.img
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO-${MACHINE}-1.01GB* ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/MLO
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/u-boot-${MACHINE}-1.01GB* ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/u-boot.img
 
 	# Install additional files from SVN
 	if [ -e ${DEPLOY_DIR_IMAGE}/mdk ]; then
