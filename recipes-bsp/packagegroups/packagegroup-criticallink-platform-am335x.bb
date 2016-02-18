@@ -17,6 +17,7 @@ CL_AM335X_BASE = "\
     linux-firmware-wl12xx \
     pointercal-default \
     populate-dev \
+    rsync \
     ti-wifi-utils \
     udev-bluetooth \
     udev-extraconf \
