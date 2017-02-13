@@ -11,6 +11,34 @@
 # the option is a question of removing the # character and making any change to the
 # variable as required.
 
+#QT5 support -- comment out for QT4 support
+DISTRO_FEATURES_remove = "x11 wayland"
+IMAGE_INSTALL += "packagegroup-qt5-toolchain-target \
+	cinematicexperience \
+	qtbase \
+	qtbase-fonts \
+	qtbase-tools \
+	qtbase-plugins \
+"
+
+PACKAGECONFIG_DISTRO_pn-qtbase = "linuxfb"
+
+#For QT4 support:
+#1: Comment out all lines under QT5 support (above)
+#2: go to file /meta-mitysom/recipes-mitysom/images/mitysom-335x-devkit.bb and remove the line 'inherit populate_sdk_qt5' do not replace this line with anyting
+#3: Uncomment the following lines
+
+#CL_BASE += "\
+#    qt4-embedded \
+#    qt4-graphics-system \
+#    qt-demo-init \
+#    qt-mobility-embedded \
+#    qtserialport-e"
+
+#IMAGE_INSTALL += "packagegroup-core-qt4e"
+
+#This is the end of the QT4 support changes
+
 #
 # Parallelism Options
 #
@@ -77,6 +105,18 @@ MACHINE ??= "qemux86"
 # BitBake has the capability to accelerate builds based on previously built output.
 # This is done using "shared state" files which can be thought of as cache objects
 # and this option determines where those files are placed.
+#
+# You can wipe out TMPDIR leaving this directory intact and the build would regenerate
+# from these files if no changes were made to the configuration. If changes were made
+# to the configuration, only shared state files where the state was still valid would
+# be used (done using checksums).
+#
+# The default is a sstate-cache directory under TOPDIR.
+#
+#SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
+
+#
+# Where to place the build output
 #
 # You can wipe out TMPDIR leaving this directory intact and the build would regenerate
 # from these files if no changes were made to the configuration. If changes were made
@@ -159,18 +199,6 @@ SDKMACHINE ?= "i686"
 # There are other application targets that can be used here too, see
 # meta/classes/image.bbclass and meta/classes/core-image.bbclass for more details.
 # We default to enabling the debugging tweaks.
-EXTRA_IMAGE_FEATURES = "debug-tweaks"
-
-#
-# Additional image features
-#
-# The following is a list of additional classes to use when building images which
-# enable extra features. Some available options which can be included in this variable 
-# are:
-#   - 'buildstats' collect build statistics
-#   - 'image-mklibs' to reduce shared library files size for an image
-#   - 'image-prelink' in order to prelink the filesystem image
-#   - 'image-swab' to perform host system intrusion detection
 # NOTE: if listing mklibs & prelink both, then make sure mklibs is before prelink
 # NOTE: mklibs also needs to be explicitly enabled for a given image, see local.conf.extended
 USER_CLASSES ?= "buildstats image-mklibs image-prelink"
