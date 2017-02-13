@@ -12,7 +12,7 @@ PR = "r0"
 # Unified CL stresstest for all platforms is default.
 STRESSTEST_MODULE ?= "unified"
 
-SRC_URI = "svn://wanda.syr.criticallink.com/svn/criticallink/test/stresstest;module=${STRESSTEST_MODULE};protocol=http"
+SRC_URI = "http://svnsrv/svn/criticallink/test/stresstest;module=${STRESSTEST_MODULE};protocol=http"
 SRCREV = "${AUTOREV}"
 
 S = "${WORKDIR}/${STRESSTEST_MODULE}"
