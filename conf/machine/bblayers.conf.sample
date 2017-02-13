@@ -16,7 +16,8 @@ BBLAYERS ?= " \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-yocto \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-yocto-bsp \
-  "
+  /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-qt5 \
+ "
 BBLAYERS_NON_REMOVABLE ?= " \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta \
   /home/jenkins/workspace/linux-mitysom-335x-devkit-release/meta-yocto \
