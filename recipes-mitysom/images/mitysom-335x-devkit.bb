@@ -1,9 +1,10 @@
 require mitysom.bb
 
-IMAGE_INSTALL += \
-    "backlight \
+IMAGE_INSTALL += "backlight \
      libicui18n \
-     modpwr \
-     packagegroup-core-qt4e"
+     modpwr \ 
+"
+
+inherit populate_sdk_qt5
 
 DESCRIPTION = ""
