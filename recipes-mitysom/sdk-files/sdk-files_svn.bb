@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=80
 PV = "1.0"
 PR = "r0"
 
-SRC_URI="svn://svnsrv/svn/mityomap/mityarm335x/trunk/sw;module=mdk;protocol=http;user=${PROJ_SVN_USER};pswd=${PROJ_SV_PASSWORD}"
+SRC_URI="svn://svnsrv/svn/mityomap/mityarm335x/trunk/sw;module=mdk;protocol=http"
 SRCREV="${AUTOREV}"
 
 inherit deploy
