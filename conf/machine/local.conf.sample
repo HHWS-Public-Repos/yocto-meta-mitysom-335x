@@ -11,7 +11,7 @@
 # the option is a question of removing the # character and making any change to the
 # variable as required.
 
-#QT5 support -- comment out for QT4 support
+#QT5 support
 DISTRO_FEATURES_remove = "x11 wayland"
 IMAGE_INSTALL += "packagegroup-qt5-toolchain-target \
 	cinematicexperience \
@@ -22,22 +22,6 @@ IMAGE_INSTALL += "packagegroup-qt5-toolchain-target \
 "
 
 PACKAGECONFIG_DISTRO_pn-qtbase = "linuxfb"
-
-#For QT4 support:
-#1: Comment out all lines under QT5 support (above)
-#2: go to file /meta-mitysom/recipes-mitysom/images/mitysom-335x-devkit.bb and remove the line 'inherit populate_sdk_qt5' do not replace this line with anyting
-#3: Uncomment the following lines
-
-#CL_BASE += "\
-#    qt4-embedded \
-#    qt4-graphics-system \
-#    qt-demo-init \
-#    qt-mobility-embedded \
-#    qtserialport-e"
-
-#IMAGE_INSTALL += "packagegroup-core-qt4e"
-
-#This is the end of the QT4 support changes
 
 #
 # Parallelism Options
