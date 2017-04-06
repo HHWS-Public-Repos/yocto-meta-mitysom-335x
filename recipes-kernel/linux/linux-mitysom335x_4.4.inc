@@ -33,7 +33,7 @@ require recipes-kernel/linux/linux-yocto.inc
 DEPENDS += " am33x-cm3"
 RRECOMMENDS_${PN} += " kernel-modules omap3-sgx-modules"
 
-SRC_URI = "git://support.criticallink.com/home/git/linux-mityarm-335x.git;protocol=git;bareclone=1;branch=${KBRANCH}"
+SRC_URI = "git://wanda/home/git/linux-mityarm-335x.git;protocol=git;bareclone=1;branch=${KBRANCH}"
 
 FILESEXTRAPATHS =. "${FILE_DIRNAME}/linux-mitysom335x:"
 
