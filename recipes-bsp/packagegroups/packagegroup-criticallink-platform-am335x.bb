@@ -22,7 +22,7 @@ CL_AM335X_BASE = "\
     udev-bluetooth \
     udev-extraconf \
     usbutils \
-    ${@base_contains('MACHINE_FEATURES', 'alsa', 'libasound-module-bluez', '',d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'alsa', 'libasound-module-bluez', '',d)} \
 "
 
 RDEPENDS_${PN} = "\
