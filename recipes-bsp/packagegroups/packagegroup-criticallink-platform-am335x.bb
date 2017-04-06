@@ -2,9 +2,9 @@ DESCRIPTION = "Extra tasks for TI AM335x platforms."
 LICENSE = "MIT"
 PR = "r0"
 
-inherit packagegroup
-
 PACKAGE_ARCH = "${MACHINE_ARCH}"
+
+inherit packagegroup
 
 CL_AM335X_BASE = "\
     bluetooth-scripts \
