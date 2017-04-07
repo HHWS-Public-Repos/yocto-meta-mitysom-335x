@@ -30,7 +30,7 @@
 inherit kernel
 require recipes-kernel/linux/linux-yocto.inc
 
-DEPENDS += " am33x-cm3"
+DEPENDS += " amx3-cm3"
 RRECOMMENDS_${PN} += " kernel-modules ti-sgx-ddk-km"
 
 SRC_URI = "git://wanda/home/git/linux-mityarm-335x.git;protocol=git;bareclone=1;branch=${KBRANCH}"
@@ -64,7 +64,7 @@ do_configure() {
         oe_runmake ${KERNEL_DEFCONFIG}
 }
 
-# Copy the am33x-cm3 firmware if it is available
+# Copy the amx3-cm3 firmware if it is available
 do_compile_prepend() {
 	if [ -e "${STAGING_DIR_HOST}/${base_libdir}/firmware/am335x-pm-firmware.bin" ]
 	then
