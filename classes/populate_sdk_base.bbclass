@@ -3,6 +3,8 @@ inherit populate_sdk_cl
 # Customizations for MitySOM 335x platform
 SDK_DEPENDS += "sdk-files:do_deploy"
 
+TARGET_ARCH="arm"
+
 fakeroot create_sdk_files_platform() {
 	# Install deploy directory
 	for f in ${DEPLOY_DIR_IMAGE}/uImage_* ; do
