@@ -12,8 +12,7 @@ CL_AM335X_BASE = "\
     bt-firmware \
     gstreamer \
     hokey-pokey \
-    libgles-omap3 \
-    libgles-omap3-rawdemos \
+    ti-sgx-ddk-um \
     linux-firmware-wl12xx \
     pointercal-default \
     populate-dev \
