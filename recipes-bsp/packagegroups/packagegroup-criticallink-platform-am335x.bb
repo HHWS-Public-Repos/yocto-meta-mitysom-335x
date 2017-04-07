@@ -8,7 +8,7 @@ inherit packagegroup
 
 CL_AM335X_BASE = "\
     bluetooth-scripts \
-    bluez4-agent \
+    bluez5-agent \
     bt-firmware \
     gstreamer \
     hokey-pokey \
