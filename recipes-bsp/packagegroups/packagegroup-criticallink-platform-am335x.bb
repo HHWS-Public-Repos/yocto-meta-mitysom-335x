@@ -10,7 +10,7 @@ CL_AM335X_BASE = "\
     bluetooth-scripts \
     bluez5-agent \
     bt-firmware \
-    gstreamer \
+    gstreamer1.0 \
     hokey-pokey \
     ti-sgx-ddk-um \
     linux-firmware-wl12xx \
