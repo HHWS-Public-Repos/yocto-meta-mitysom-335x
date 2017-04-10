@@ -46,8 +46,8 @@ SRC_URI += "file://mitysom-335x.scc \
 KBRANCH = "linux4.4"
 KDIR = "${WORKDIR}/git"
 
-LINUX_VERSION ?= "4.4"
-LINUX_VERSION_EXTENSION ?= "4.4"
+LINUX_VERSION ?= "4.4.32"
+LINUX_VERSION_EXTENSION ?= "4.4.32"
 
 SRCREV="${AUTOREV}"
 
