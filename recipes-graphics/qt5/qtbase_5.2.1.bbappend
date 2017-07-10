@@ -1,1 +1,3 @@
-SRC_URI += "file://../../meta-mitysom-335x/recipes-graphics/qt5/files/0017-qt5-workaround-gcc48-arm-build-failure.patch"
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+
+SRC_URI += "file://0017-qt5-workaround-gcc48-arm-build-failure.patch"
