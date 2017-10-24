@@ -30,6 +30,7 @@ IMAGE_INSTALL += "packagegroup-qt5-toolchain-target \
 "
 
 PACKAGECONFIG_DISTRO_pn-qtbase = "linuxfb"
+PACKAGECONFIG_append_pn-qtbase = " sql-sqlite"
 
 #For QT4 support:
 #1: Comment out all lines under QT5 support (above)
