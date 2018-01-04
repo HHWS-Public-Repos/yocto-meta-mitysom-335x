@@ -5,20 +5,22 @@ LCONF_VERSION = "6"
 BBPATH = "${TOPDIR}"
 BBFILES ?= ""
 
+YOCTOROOT = "${@os.path.abspath(os.path.join("${TOPDIR}", os.pardir))}"
+
 BBLAYERS ?= " \
-  /home/jenkins/workspace/Yocto-mitysom-335x-devkit-release/meta-mitysom-335x \
-  /home/jenkins/workspace/Yocto-mitysom-335x-devkit-release/meta-criticallink \
-  /home/jenkins/workspace/Yocto-mitysom-335x-devkit-release/meta-ti \
-  /home/jenkins/workspace/Yocto-mitysom-335x-devkit-release/meta-linaro/meta-linaro-toolchain \
-  /home/jenkins/workspace/Yocto-mitysom-335x-devkit-release/meta-openembedded/meta-oe \
-  /home/jenkins/workspace/Yocto-mitysom-335x-devkit-release/meta-openembedded/meta-networking \
-  /home/jenkins/workspace/Yocto-mitysom-335x-devkit-release/meta-openembedded/toolchain-layer \
-  /home/jenkins/workspace/Yocto-mitysom-335x-devkit-release/meta \
-  /home/jenkins/workspace/Yocto-mitysom-335x-devkit-release/meta-yocto \
-  /home/jenkins/workspace/Yocto-mitysom-335x-devkit-release/meta-yocto-bsp \
-  /home/jenkins/workspace/Yocto-mitysom-335x-devkit-release/meta-qt5 \
+  ${YOCTOROOT}/meta-mitysom-335x \
+  ${YOCTOROOT}/meta-criticallink \
+  ${YOCTOROOT}/meta-ti \
+  ${YOCTOROOT}/meta-linaro/meta-linaro-toolchain \
+  ${YOCTOROOT}/meta-openembedded/meta-oe \
+  ${YOCTOROOT}/meta-openembedded/meta-networking \
+  ${YOCTOROOT}/meta-openembedded/toolchain-layer \
+  ${YOCTOROOT}/meta \
+  ${YOCTOROOT}/meta-yocto \
+  ${YOCTOROOT}/meta-yocto-bsp \
+  ${YOCTOROOT}/meta-qt5 \
  "
 BBLAYERS_NON_REMOVABLE ?= " \
-  /home/jenkins/workspace/Yocto-mitysom-335x-devkit-release/meta \
-  /home/jenkins/workspace/Yocto-mitysom-335x-devkit-release/meta-yocto \
+  ${YOCTOROOT}/meta \
+  ${YOCTOROOT}/meta-yocto \
   "
