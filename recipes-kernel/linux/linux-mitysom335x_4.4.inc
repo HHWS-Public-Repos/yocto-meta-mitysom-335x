@@ -31,7 +31,7 @@ inherit kernel
 require recipes-kernel/linux/linux-yocto.inc
 
 DEPENDS += " amx3-cm3"
-RRECOMMENDS_${PN} += " kernel-modules ti-sgx-ddk-km"
+RRECOMMENDS_${PN} += " kernel-modules"
 
 SRC_URI = "git://wanda/home/git/linux-mityarm-335x.git;protocol=git;bareclone=1;branch=${KBRANCH}"
 
