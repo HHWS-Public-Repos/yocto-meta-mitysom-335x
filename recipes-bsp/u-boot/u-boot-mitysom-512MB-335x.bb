@@ -6,16 +6,15 @@ COMPATIBLE_MACHINE = "mitysom-335x"
 
 SPL_BINARY = "MLO"
 UBOOT_SUFFIX = "img"
-UBOOT_MACHINE = "mityarm335x_4kpage"
+UBOOT_MACHINE = "mitysom335x_devkit_512MB_defconfig"
 UBOOT_ENTRYPOINT = "0x80008000"
 UBOOT_LOADADDRESS = "0x80008000"
 
 PR = "r0"
 PV_append = "512MB+git${SRCPV}"
 
-SRC_URI = "git://support.criticallink.com/home/git/u-boot-mityarm-335x.git;protocol=git;branch=${BRANCH}"
+SRC_URI = "git://wanda/home/git/u-boot-mityarm-335x.git;protocol=git;branch=${BRANCH}"
 
-# This version of u-boot is meant for 3.2 kernel which doesn't support device tree.
-BRANCH = "u-boot-2013.10"
+BRANCH = "u-boot-2017.01_amk"
 
 SRCREV = "${AUTOREV}"
