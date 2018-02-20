@@ -11,6 +11,10 @@
 # the option is a question of removing the # character and making any change to the
 # variable as required.
 
+# Archive the source used in the build
+INHERIT += "archiver"
+ARCHIVER_MODE[src] = "original"
+
 #QT5 support
 DISTRO_FEATURES_remove = "x11 wayland"
 IMAGE_INSTALL += "packagegroup-qt5-toolchain-target \
