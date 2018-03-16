@@ -43,7 +43,7 @@ SRC_URI += "file://mitysom-335x.scc \
             file://mitysom-335x-user-patches.scc \
            "
 
-KBRANCH = "linux4.4_amk"
+KBRANCH = "linux4.4_rc"
 KDIR = "${WORKDIR}/git"
 
 LINUX_VERSION ?= "4.4.32"
