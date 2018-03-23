@@ -27,7 +27,7 @@
 #            SRC_URI += "file://feature.scc"
 #
 
-inherit kernel
+inherit kernel kernel-fitimage
 require recipes-kernel/linux/linux-yocto.inc
 
 DEPENDS += " amx3-cm3"
