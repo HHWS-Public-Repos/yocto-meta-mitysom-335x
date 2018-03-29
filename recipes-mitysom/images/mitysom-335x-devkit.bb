@@ -5,6 +5,4 @@ IMAGE_INSTALL += "backlight \
      modpwr \ 
 "
 
-inherit populate_sdk_qt5
-
 DESCRIPTION = ""
