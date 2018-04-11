@@ -23,6 +23,11 @@ fakeroot create_sdk_files_platform() {
 	install -m 0755 ${DEPLOY_DIR_IMAGE}/../${MACHINE}-1GB/MLO ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/MLO
 	install -m 0755 ${DEPLOY_DIR_IMAGE}/../${MACHINE}-1GB/u-boot.img* ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/u-boot.img
 
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/fitImage-zImage_devkit.bin ${SDK_OUTPUT}/${SDKPATH}/deploy/fitImage
+	
+	install -d ${SDK_OUTPUT}/${SDKPATH}/sources
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/fitImage-its-mitysom-335x.its ${SDK_OUTPUT}/${SDKPATH}/sources/fitImage.its
+
 	# Install additional files from SVN
 	if [ -e ${DEPLOY_DIR_IMAGE}/mdk ]; then
 		cd ${DEPLOY_DIR_IMAGE}/mdk
