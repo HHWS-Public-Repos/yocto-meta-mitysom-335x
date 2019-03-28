@@ -16,7 +16,7 @@ BBLAYERS ?= " \
   ${YOCTOROOT}/meta-openembedded/meta-python \
   ${YOCTOROOT}/meta-openembedded/meta-networking \
   ${YOCTOROOT}/meta \
-  ${YOCTOROOT}/meta-yocto \
+  ${YOCTOROOT}/meta-poky \
   ${YOCTOROOT}/meta-yocto-bsp \
   ${YOCTOROOT}/meta-qt5 \
  "
