@@ -37,7 +37,8 @@ SRC_URI = "git://wanda/home/git/linux-mityarm-335x.git;protocol=git;bareclone=1;
 
 FILESEXTRAPATHS =. "${FILE_DIRNAME}/linux-mitysom335x:"
 
-SRC_URI += "file://mitysom-335x.scc \
+SRC_URI += "file://defconfig \
+            file://mitysom-335x.scc \
             file://mitysom-335x.cfg \
             file://mitysom-335x-user-config.cfg \
             file://mitysom-335x-user-patches.scc \
