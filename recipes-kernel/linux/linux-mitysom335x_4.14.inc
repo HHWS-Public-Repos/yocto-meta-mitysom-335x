@@ -44,11 +44,11 @@ SRC_URI += "file://defconfig \
             file://mitysom-335x-user-patches.scc \
            "
 
-KBRANCH = "linux4.4_rc"
+KBRANCH = "linux4.14"
 KDIR = "${WORKDIR}/git"
 
-LINUX_VERSION ?= "4.4.32"
-LINUX_VERSION_EXTENSION ?= "4.4.32"
+LINUX_VERSION ?= "4.14.90"
+LINUX_VERSION_EXTENSION ?= "4.14.90"
 
 SRCREV="${AUTOREV}"
 

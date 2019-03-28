@@ -1,4 +1,4 @@
-require recipes-kernel/linux/linux-mitysom335x_4.4.inc
+require recipes-kernel/linux/linux-mitysom335x_4.14.inc
 
 PV = "${LINUX_VERSION}-devkit+git${SRCPV}"
 
