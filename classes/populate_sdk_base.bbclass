@@ -1,7 +1,7 @@
 inherit populate_sdk_cl
 
 # Customizations for MitySOM 335x platform
-SDK_DEPENDS += "sdk-files:do_deploy"
+do_populate_sdk[depends] +=  "sdk-files:do_deploy"
 
 TARGET_ARCH="arm"
 
