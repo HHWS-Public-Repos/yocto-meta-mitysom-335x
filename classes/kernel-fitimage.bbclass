@@ -248,16 +248,16 @@ fitimage_emit_section_config() {
 	fi
 
 	# Loop through the device tree id's
-	for i in ${*:5}
+	for i in ${5} ${6}
 	do
-	if [[ "${i}" -ne "${5}" ]]; then
-		fdt_line+=", "
+	if [ "${i}" -ne "${5}" ]; then
+		fdt_line="${fdt_line}, "
 	fi
-	fdt_line+="\"fdt-${i}\""
+	fdt_line="${fdt_line}\"fdt-${i}\""
 	done
 
 	# Set configuration as default if name is 'conf'
-	if [[ "${conf_name}" == 'conf' ]]; then
+	if [ "${conf_name}" = "conf" ]; then
 	cat << EOF >> ${1}
 		default = "${conf_name}";
 EOF
@@ -325,7 +325,7 @@ fitimage_assemble() {
 	done
 
 	# Check if the right number of device trees are given
-	if [[ "${dtbcount}" -ne 6 ]]; then
+	if [ "${dtbcount}" -ne 6 ]; then
 		bberror "Invalid number of device trees: ${dtbcount}"
 	fi
 	fi
