@@ -5,7 +5,7 @@ IMAGE_FEATURES += "\
     debug-tweaks \
     splash \
     package-management \
-    ssh-server-dropbear \
+    ssh-server-openssh \
 "
 
 IMAGE_INSTALL += "\
