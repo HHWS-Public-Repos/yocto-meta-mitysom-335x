@@ -18,6 +18,9 @@ CL_AM335X_BASE = "\
     udev-bluetooth \
     udev-extraconf \
     usbutils \
+    test-335x \
+    test-eth \
+    rs-485 \
     ${@bb.utils.contains('COMBINED_FEATURES', 'alsa', bb.utils.contains('BLUEZ', 'bluez4', 'libasound-module-bluez', '', d), '',d)} \
 "
 
