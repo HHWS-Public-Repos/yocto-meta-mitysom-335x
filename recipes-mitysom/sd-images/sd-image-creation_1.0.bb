@@ -23,6 +23,6 @@ do_compile(){
 	--rootfs mitysom-335x-devkit-mitysom-335x.tar.bz2;
 }
 
-do_deploy() {
+do_install() {
 	install -m 0755 ${WORKDIR}/sd_card.img ${DEPLOY_DIR_IMAGE}/${MACHINE}.img
 }
