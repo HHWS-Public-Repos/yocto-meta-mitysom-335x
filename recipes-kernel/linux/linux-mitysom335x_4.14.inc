@@ -61,14 +61,5 @@ KERNEL_DEFCONFIG ?= "mitysom-335x-devkit_defconfig"
 KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}_devkit"
 
 do_configure() {
-	unset LDFLAGS
         oe_runmake ${KERNEL_DEFCONFIG}
-}
-
-# Copy the amx3-cm3 firmware if it is available
-do_compile_prepend() {
-	if [ -e "${STAGING_DIR_HOST}/${base_libdir}/firmware/am335x-pm-firmware.bin" ]
-	then
-		cp "${STAGING_DIR_HOST}/${base_libdir}/firmware/am335x-pm-firmware.bin" "${S}/firmware"
-	fi
 }
