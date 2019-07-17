@@ -28,6 +28,9 @@ fakeroot create_sdk_files_platform() {
 	install -d ${SDK_OUTPUT}/${SDKPATH}/sources
 	install -m 0755 ${DEPLOY_DIR_IMAGE}/fitImage-its-mitysom-335x.its ${SDK_OUTPUT}/${SDKPATH}/sources/fitImage.its
 
+	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/USB_BOOT
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/../${MACHINE}-USBBOOT/u-boot-spl.bin ${SDK_OUTPUT}/${SDKPATH}/deploy/USB_BOOT/u-boot-spl.bin
+
 	# Install additional files from SVN
 	if [ -e ${DEPLOY_DIR_IMAGE}/mdk ]; then
 		cd ${DEPLOY_DIR_IMAGE}/mdk
