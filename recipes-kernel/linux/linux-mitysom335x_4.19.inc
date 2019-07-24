@@ -44,11 +44,11 @@ SRC_URI += "file://defconfig \
             file://mitysom-335x-user-patches.scc \
            "
 
-KBRANCH = "linux4.14"
+KBRANCH = "linux4.19"
 KDIR = "${WORKDIR}/git"
 
-LINUX_VERSION ?= "4.14.90"
-LINUX_VERSION_EXTENSION ?= "4.14.90"
+LINUX_VERSION ?= "4.19.38"
+LINUX_VERSION_EXTENSION ?= "4.19.38"
 
 SRCREV="${AUTOREV}"
 
@@ -58,7 +58,7 @@ PV ?= "${LINUX_VERSION}-devkit+git${SRCPV}"
 COMPATIBLE_MACHINE_mitysom-335x = "mitysom-335x"
 
 KERNEL_DEFCONFIG ?= "mitysom-335x-devkit_defconfig"
-KERNEL_IMAGE_SYMLINK_NAME ?= "${KERNEL_IMAGETYPE}_devkit"
+KERNEL_IMAGE_LINK_NAME ?= "${KERNEL_IMAGETYPE}_devkit"
 
 do_configure() {
         oe_runmake ${KERNEL_DEFCONFIG}
