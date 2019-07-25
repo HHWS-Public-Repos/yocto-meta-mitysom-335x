@@ -1,0 +1,1 @@
+EXTRA_OEMAKE += 'TARGET_PRIMARY_ARCH=target_armhf'
