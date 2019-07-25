@@ -16,6 +16,4 @@ PV_append = "-256MB+git${SRCPV}"
 SRC_URI = "git://wanda/home/git/u-boot-mityarm-335x.git;protocol=git;branch=${BRANCH} \
 "
 
-BRANCH = "u-boot-2018.01"
-
 SRCREV = "${AUTOREV}"

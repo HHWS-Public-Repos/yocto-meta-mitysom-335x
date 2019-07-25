@@ -6,6 +6,7 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://${S}/Licenses/gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
+DEPENDS += "bison-native"
 
 PROVIDES += "u-boot"
 PKG_${PN} = "u-boot"
@@ -13,6 +14,8 @@ PKG_${PN}-dev = "u-boot-dev"
 PKG_${PN}-dbg = "u-boot-dbg"
 
 S = "${WORKDIR}/git"
+
+BRANCH = "u-boot-2019.01"
 
 # SPL (Second Program Loader) to be loaded over UART
 SPL_UART_BINARY ?= ""
