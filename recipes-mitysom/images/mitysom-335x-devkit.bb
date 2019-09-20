@@ -6,6 +6,8 @@ IMAGE_INSTALL += "backlight \
      qtbase \
 "
 
+KERNEL_DEVICETREE_append = "am335x-mitysom-maker.dts"
+
 inherit populate_sdk_qt5
 
 DESCRIPTION = ""
