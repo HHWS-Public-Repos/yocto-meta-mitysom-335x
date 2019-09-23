@@ -325,7 +325,7 @@ fitimage_assemble() {
 	done
 
 	# Check if the right number of device trees are given
-	if [ "${dtbcount}" -ne 6 ]; then
+	if [ "${dtbcount}" -ne 7 ]; then
 		bberror "Invalid number of device trees: ${dtbcount}"
 	fi
 	fi
