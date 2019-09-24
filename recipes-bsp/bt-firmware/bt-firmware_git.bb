@@ -36,3 +36,4 @@ do_install() {
 }
 
 FILES_${PN} += "${base_libdir}/firmware"
+CLEANBROKEN = "1"
