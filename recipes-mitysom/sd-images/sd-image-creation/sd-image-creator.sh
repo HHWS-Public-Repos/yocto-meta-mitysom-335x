@@ -10,10 +10,9 @@ app=$(basename "$apppath")
 
 # function die
 # print an error message and exit with status
-# args 1- are the message to print
+# args the message to print
 die()
 {
-	shift
 	echo "$(hostname)": FATAL: "$*" >&2
 	exit 1
 }
@@ -62,7 +61,7 @@ fi
 OPTIONS=$(getopt -o s:o:p:u:k:b:f:r:gvah --long size:,outfile:,preloader:,uboot:,kernel:,bootfile:,userfile:,rootfs:,gzip,verbose,nosparse,help\
 	  -n "$app" -- "$@")
 
-[ $? != 0 ] && die 2 "Terminating... getopt failed"
+[ $? != 0 ] && die "Terminating... getopt failed"
 eval set -- "$OPTIONS"
 while true ; do
 	case "$1" in
@@ -79,7 +78,7 @@ while true ; do
 		-r|--rootfs) ROOT_BALL=$(readlink -f "$2"); shift 2;;
 		-h|--help) usage ; exit 0; shift;;
 		--) shift ; break ;;
-		*) die 2 "Internal error!: $*" ; shift;;
+		*) die "Internal error!: $*" ; shift;;
 	esac
 done
 
