@@ -53,7 +53,7 @@ GZIP=N
 ROOT_BALL=""
 
 guestfish=$(which guestfish)
-if [ -n "$guestfish" ]; then
+if [ -z "$guestfish" ]; then
 	die guestfish missing.. run sudo apt-get install libguestfs-tools
 fi
 # Note that we use `"$@"' to let each command-line parameter expand to a
