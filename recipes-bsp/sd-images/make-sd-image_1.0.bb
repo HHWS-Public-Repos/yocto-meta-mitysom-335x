@@ -21,13 +21,17 @@ ROOTFS_IMAGE_ti33x = "mitysom-335x-devkit-mitysom-335x.tar.bz2"
 # SOC_FAMILY is set to ti33x for all the mitysom-335x machines
 do_compile_ti33x(){
 	cd ${S}
-	./make_sd_image.sh \
-	--gzip \
-	--preloader ${DEPLOY_DIR_IMAGE}/MLO \
-	--uboot ${DEPLOY_DIR_IMAGE}/u-boot.img \
-	--kernel ${DEPLOY_DIR}/images/mitysom-335x/fitImage \
+	# Copy to local workdir since guestfish can't follow symlinks
+	cp ${DEPLOY_DIR_IMAGE}/MLO .
+	cp ${DEPLOY_DIR_IMAGE}/u-boot.img .
+	cp ${DEPLOY_DIR}/images/mitysom-335x/fitImage .
+	cp ${DEPLOY_DIR}/images/mitysom-335x/${ROOTFS_IMAGE} .
+	./sd-image-creator.sh \
+	--preloader MLO \
+	--uboot u-boot.img \
+	--kernel fitImage \
 	--bootfile ${DEPLOYDIR}/images/mitysom-335x/mdk/deploy/boot/uEnv.txt \
-	--rootfs ${DEPLOY_DIR}/images/mitysom-335x/${ROOTFS_IMAGE}
+	--rootfs ${ROOTFS_IMAGE};
 }
 
 inherit deploy
