@@ -125,6 +125,10 @@ rootfs_end=$((rootfs_start + rootfs_sectors))
 userdata_start=$((rootfs_end + 1))
 userdata_end=-1 # Note: -1 indicates end of image
 
+
+# Catch guestfish errors
+set -e
+
 echo "Creating partitions"
 
 # Create partitions
