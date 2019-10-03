@@ -210,6 +210,15 @@ EOF
 fi
 
 #############################################
+###        Generate bmap file             ###
+#############################################
+bmaptool=$(which bmaptool)
+if [ -n "$bmaptool" ]; then
+	echo "Generating .bmap file"
+	"$bmaptool" create "$IMAGE_FILE" > "${IMAGE_FILE}.bmap"
+fi
+
+#############################################
 ###           COMPRESSING IMAGE           ###
 #############################################
 if [ "Y" = "$GZIP" ] ; then
