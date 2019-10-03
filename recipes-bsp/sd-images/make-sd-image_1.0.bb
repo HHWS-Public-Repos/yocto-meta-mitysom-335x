@@ -26,7 +26,7 @@ do_compile_ti33x(){
 	cp ${DEPLOY_DIR_IMAGE}/u-boot.img .
 	cp ${DEPLOY_DIR}/images/mitysom-335x/fitImage .
 	cp ${DEPLOY_DIR}/images/mitysom-335x/${ROOTFS_IMAGE} .
-	./sd-image-creator.sh \
+	./make_sd_image.sh \
 	--preloader MLO \
 	--uboot u-boot.img \
 	--kernel fitImage \
