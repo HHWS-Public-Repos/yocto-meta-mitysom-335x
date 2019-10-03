@@ -30,7 +30,6 @@ do_compile_ti33x(){
 	--preloader MLO \
 	--uboot u-boot.img \
 	--kernel fitImage \
-	--bootfile ${DEPLOYDIR}/images/mitysom-335x/mdk/deploy/boot/uEnv.txt \
 	--rootfs ${ROOTFS_IMAGE};
 }
 
