@@ -209,13 +209,16 @@ echo "=> Populate User Data Partition"
 EOF
 fi
 
+# guestfish commands done, stop tracking errors so which bmaptool doesn't exit script
+set +e
+
 #############################################
 ###        Generate bmap file             ###
 #############################################
 bmaptool=$(which bmaptool)
 if [ -n "$bmaptool" ]; then
 	echo "Generating .bmap file"
-	"$bmaptool" create "$IMAGE_FILE" > "${IMAGE_FILE}.bmap"
+	"$bmaptool" create "$IMAGE_FILE" > "${IMAGE_FILE}.bmap" || die "Failed to create bmap file"
 fi
 
 #############################################
@@ -223,7 +226,7 @@ fi
 #############################################
 if [ "Y" = "$GZIP" ] ; then
 	echo compressing "${IMAGE_FILE}"
-	gzip -f "${IMAGE_FILE}"
+	gzip -f "${IMAGE_FILE}" || die "Failed to gzip image file"
 fi
 
 exit 0
