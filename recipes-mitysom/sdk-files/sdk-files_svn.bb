@@ -6,7 +6,7 @@ PV = "1.0"
 PR = "r1"
 
 SRC_URI="svn://svnsrv/svn/mityomap/mityarm335x/trunk/sw;module=mdk;protocol=http"
-SRCREV = "8379"
+SRCREV="${AUTOREV}"
 
 inherit deploy
 
