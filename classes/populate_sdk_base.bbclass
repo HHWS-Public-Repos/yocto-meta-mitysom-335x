@@ -26,7 +26,7 @@ fakeroot create_sdk_files_platform() {
 	install -m 0755 ${DEPLOY_DIR_IMAGE}/fitImage-zImage_devkit.bin ${SDK_OUTPUT}/${SDKPATH}/deploy/fitImage
 	
 	install -d ${SDK_OUTPUT}/${SDKPATH}/sources
-	install -m 0755 ${DEPLOY_DIR_IMAGE}/*.its ${SDK_OUTPUT}/${SDKPATH}/sources/fitImage.its
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/*335x.its ${SDK_OUTPUT}/${SDKPATH}/sources/fitImage.its
 
 	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/USB_BOOT
 	install -m 0755 ${DEPLOY_DIR_IMAGE}/../${MACHINE}-USBBOOT/u-boot-spl.bin ${SDK_OUTPUT}/${SDKPATH}/deploy/USB_BOOT/u-boot-spl.bin
