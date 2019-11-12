@@ -303,7 +303,7 @@ fitimage_assemble() {
 	# Step 2: Prepare a DTB image section
 	#
 	if test -n "${KERNEL_DEVICETREE}"; then
-	dtbcount=1
+	dtbcount=0
 	for DTB in ${KERNEL_DEVICETREE}; do
 		if echo ${DTB} | grep -q '/dts/'; then
 		bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
@@ -325,7 +325,7 @@ fitimage_assemble() {
 	done
 
 	# Check if the right number of device trees are given
-	if [ "${dtbcount}" -ne 7 ]; then
+	if [ "${dtbcount}" -ne 1 ]; then
 		bberror "Invalid number of device trees: ${dtbcount}"
 	fi
 	fi
