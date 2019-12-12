@@ -10,8 +10,7 @@ DISTRO_FEATURES_remove = "x11 wayland"
 IMAGE_INSTALL += "packagegroup-qt5-toolchain-target \
         cinematicexperience \
         qtbase \
-        qtbase-fonts \
-	qtbase-tools \
+        qtbase-tools \
         qtbase-plugins \
 "
 
