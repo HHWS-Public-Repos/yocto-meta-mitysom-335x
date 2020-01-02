@@ -10,10 +10,9 @@ app=$(basename "$apppath")
 
 # function die
 # print an error message and exit with status
-# args 1- are the message to print
+# args the message to print
 die()
 {
-	shift
 	echo "$(hostname)": FATAL: "$*" >&2
 	exit 1
 }
@@ -53,7 +52,7 @@ GZIP=N
 ROOT_BALL=""
 
 guestfish=$(which guestfish)
-if [ -n "$guestfish" ]; then
+if [ -z "$guestfish" ]; then
 	die guestfish missing.. run sudo apt-get install libguestfs-tools
 fi
 # Note that we use `"$@"' to let each command-line parameter expand to a
@@ -62,7 +61,7 @@ fi
 OPTIONS=$(getopt -o s:o:p:u:k:b:f:r:gvah --long size:,outfile:,preloader:,uboot:,kernel:,bootfile:,userfile:,rootfs:,gzip,verbose,nosparse,help\
 	  -n "$app" -- "$@")
 
-[ $? != 0 ] && die 2 "Terminating... getopt failed"
+[ $? != 0 ] && die "Terminating... getopt failed"
 eval set -- "$OPTIONS"
 while true ; do
 	case "$1" in
@@ -79,7 +78,7 @@ while true ; do
 		-r|--rootfs) ROOT_BALL=$(readlink -f "$2"); shift 2;;
 		-h|--help) usage ; exit 0; shift;;
 		--) shift ; break ;;
-		*) die 2 "Internal error!: $*" ; shift;;
+		*) die "Internal error!: $*" ; shift;;
 	esac
 done
 
@@ -125,6 +124,10 @@ rootfs_sectors=$((ROOTFS_SIZE_MB * 2 * 1024))
 rootfs_end=$((rootfs_start + rootfs_sectors))
 userdata_start=$((rootfs_end + 1))
 userdata_end=-1 # Note: -1 indicates end of image
+
+
+# Catch guestfish errors
+set -e
 
 echo "Creating partitions"
 
@@ -206,12 +209,24 @@ echo "=> Populate User Data Partition"
 EOF
 fi
 
+# guestfish commands done, stop tracking errors so which bmaptool doesn't exit script
+set +e
+
+#############################################
+###        Generate bmap file             ###
+#############################################
+bmaptool=$(which bmaptool)
+if [ -n "$bmaptool" ]; then
+	echo "Generating .bmap file"
+	"$bmaptool" create "$IMAGE_FILE" > "${IMAGE_FILE}.bmap" || die "Failed to create bmap file"
+fi
+
 #############################################
 ###           COMPRESSING IMAGE           ###
 #############################################
 if [ "Y" = "$GZIP" ] ; then
 	echo compressing "${IMAGE_FILE}"
-	gzip -f "${IMAGE_FILE}"
+	gzip -f "${IMAGE_FILE}" || die "Failed to gzip image file"
 fi
 
 exit 0
