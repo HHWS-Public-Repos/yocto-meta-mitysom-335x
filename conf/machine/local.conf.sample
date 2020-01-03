@@ -272,6 +272,9 @@ BB_DISKMON_DIRS = "\
 # this doesn't mean anything to you.
 CONF_VERSION = "1"
 
+# Make sure svn is installed to the hosttools directory for AUTOREV
+HOSTTOOLS += "svn"
+
 # Add guestfish to hosttools for sd image creation
 HOSTTOOLS += "guestfish"
 
