@@ -16,6 +16,7 @@ IMAGE_INSTALL += "\
     packagegroup-criticallink-util \
     gadget-init-storage \
     makedevs \
+    fbfill \
 "
 
 inherit core-image
