@@ -16,22 +16,31 @@ DEPENDS_${PN} = "bash bmap-tools-native"
 # Needs guestfish installed in host, really needs to be declared in local.conf
 HOSTTOOLS += "guestfish"
 
-ROOTFS_IMAGE_ti33x = "mitysom-335x-devkit-mitysom-335x.tar.bz2"
+BOOT_FILES_ti33x = ""
+KERNEL_IMAGE_ti33x = "${DEPLOY_DIR}/images/mitysom-335x/fitImage"
+ROOTFS_IMAGE_ti33x = "${DEPLOY_DIR}/images/mitysom-335x/mitysom-335x-devkit-mitysom-335x.tar.bz2"
 
 # SOC_FAMILY is set to ti33x for all the mitysom-335x machines
 do_compile_ti33x(){
 	cd ${S}
+
+	# Check if we need to add boot files
+	if [ -n "${BOOT_FILES}" ]; then
+		boot_args="--bootfile \"${BOOT_FILES}\" "
+	fi
+
 	# Copy to local workdir since guestfish can't follow symlinks
 	cp ${DEPLOY_DIR_IMAGE}/MLO .
 	cp ${DEPLOY_DIR_IMAGE}/u-boot.img .
-	cp ${DEPLOY_DIR}/images/mitysom-335x/fitImage .
-	cp ${DEPLOY_DIR}/images/mitysom-335x/${ROOTFS_IMAGE} .
+	cp ${KERNEL_IMAGE} .
+	cp ${ROOTFS_IMAGE} .
 	./make_sd_image.sh \
 	--gzip \
 	--preloader MLO \
 	--uboot u-boot.img \
-	--kernel fitImage \
-	--rootfs ${ROOTFS_IMAGE};
+	${boot_args} \
+	--kernel "$(basename ${KERNEL_IMAGE})" \
+	--rootfs "$(basename ${ROOTFS_IMAGE})";
 }
 
 inherit deploy
