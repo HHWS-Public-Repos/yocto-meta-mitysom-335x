@@ -14,20 +14,18 @@ S = "${WORKDIR}"
 DEPENDS_${PN} = "bash bmap-tools-native"
 
 # Needs guestfish installed in host, really needs to be declared in local.conf
-HOSTTOOLS += "guestfish"
+HOSTTOOLS += " guestfish"
 
-BOOT_FILES_ti33x = ""
+# Example boot args, note requires copying files to $S in a do_compile_append() if bbappending this recipe
+# BOOT_ARGS_ti33x = "--bootfile uEnv.txt --bootfile am335x-mitysom-devkit.dtb"
+BOOT_ARGS_ti33x = ""
+
 KERNEL_IMAGE_ti33x = "${DEPLOY_DIR}/images/mitysom-335x/fitImage"
 ROOTFS_IMAGE_ti33x = "${DEPLOY_DIR}/images/mitysom-335x/mitysom-335x-devkit-mitysom-335x.tar.bz2"
 
 # SOC_FAMILY is set to ti33x for all the mitysom-335x machines
 do_compile_ti33x(){
 	cd ${S}
-
-	# Check if we need to add boot files
-	if [ -n "${BOOT_FILES}" ]; then
-		boot_args="--bootfile \"${BOOT_FILES}\" "
-	fi
 
 	# Copy to local workdir since guestfish can't follow symlinks
 	cp ${DEPLOY_DIR_IMAGE}/MLO .
@@ -38,7 +36,7 @@ do_compile_ti33x(){
 	--gzip \
 	--preloader MLO \
 	--uboot u-boot.img \
-	${boot_args} \
+	${BOOT_ARGS} \
 	--kernel "$(basename ${KERNEL_IMAGE})" \
 	--rootfs "$(basename ${ROOTFS_IMAGE})";
 }
