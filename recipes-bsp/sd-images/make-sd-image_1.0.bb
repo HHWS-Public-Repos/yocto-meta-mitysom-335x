@@ -14,7 +14,7 @@ S = "${WORKDIR}"
 DEPENDS_${PN} = "bash bmap-tools-native"
 
 # Needs guestfish installed in host, really needs to be declared in local.conf
-HOSTTOOLS += "guestfish"
+HOSTTOOLS += " guestfish"
 
 # Example boot args, note requires copying files to $S in a do_compile_append() if bbappending this recipe
 # BOOT_ARGS_ti33x = "--bootfile uEnv.txt --bootfile am335x-mitysom-devkit.dtb"
