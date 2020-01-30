@@ -95,7 +95,7 @@ fitimage_emit_section_kernel() {
 	kernel_csum="sha1"
 
 	ENTRYPOINT=${UBOOT_ENTRYPOINT}
-	if test -n "${UBOOT_ENTRYSYMBOL}"; then
+	if [ -n "${UBOOT_ENTRYSYMBOL}" ]; then
 	ENTRYPOINT=`${HOST_PREFIX}nm ${S}/vmlinux | \
 		awk '$4=="${UBOOT_ENTRYSYMBOL}" {print $2}'`
 	fi
@@ -225,11 +225,12 @@ EOF
 #
 # Emit the fitImage ITS configuration section
 #
-# $1 	 ... .its filename
-# $2 	 ... config ID
-# $3 	 ... config description
-# $4 	 ... Linux kernel ID
-# $5 onwards ... DTB image ID's
+# $1 ... .its filename
+# $2 ... config ID
+# $3 ... config description
+# $4 ... Linux kernel Number
+# $5 ... Base DTB Number
+# $6 ... NAND Overlay DTB Number 
 fitimage_emit_section_config() {
 
 	fdt_line=""
@@ -302,8 +303,8 @@ fitimage_assemble() {
 	#
 	# Step 2: Prepare a DTB image section
 	#
-	if test -n "${KERNEL_DEVICETREE}"; then
-	dtbcount=0
+	if [ -n "${KERNEL_DEVICETREE}" ]; then
+	dtbcount=1
 	for DTB in ${KERNEL_DEVICETREE}; do
 		if echo ${DTB} | grep -q '/dts/'; then
 		bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
@@ -325,7 +326,11 @@ fitimage_assemble() {
 	done
 
 	# Check if the right number of device trees are given
-	if [ "${dtbcount}" -ne 1 ]; then
+
+	# Changed to two just to make sure this doesn't error after change
+	# to dtbcount. Will be changed to higher number when I figure out
+	# why it was lowered in the first place. 
+	if [ "${dtbcount}" -ne 2 ]; then 
 		bberror "Invalid number of device trees: ${dtbcount}"
 	fi
 	fi
@@ -333,7 +338,7 @@ fitimage_assemble() {
 	#
 	# Step 3: Prepare a setup section. (For x86)
 	#
-	if test -e arch/${ARCH}/boot/setup.bin ; then
+	if [ -e arch/${ARCH}/boot/setup.bin ]; then
 	setupcount=1
 	fitimage_emit_section_setup ${1} "${setupcount}" arch/${ARCH}/boot/setup.bin
 	fi
@@ -341,24 +346,20 @@ fitimage_assemble() {
 	#
 	# Step 4: Prepare a ramdisk section.
 	#
-	if [ "x${ramdiskcount}" = "x1" ] ; then
+	if [ "x${ramdiskcount}" = "x1" ]; then
 	copy_initramfs
 	fitimage_emit_section_ramdisk ${1} "${ramdiskcount}" usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
 	fi
 
 	fitimage_emit_section_maint ${1} sectend
 
-	# Force the first Kernel and DTB in the default config
-	kernelcount=1
-	if test -n "${dtbcount}"; then
-	dtbcount=1
-	fi
-
 	#
 	# Step 5: Prepare a configurations section
 	#
 	fitimage_emit_section_maint ${1} confstart
 
+	# Params: .its filename, config ID, config description, 
+	# Linux kernel Number, Base DTB Number, NAND Overlay DTB Number
 	fitimage_emit_section_config ${1} "conf" "Linux kernel, FDT devkit blob, No NAND, No NOR" 1 1
 	fitimage_emit_section_config ${1} "conf_nand256" "Linux kernel, FDT maker blob, 256MB NAND, No NOR" 1 1 2
 	fitimage_emit_section_config ${1} "conf_nand256_nor8" "Linux kernel, FDT maker blob, 256MB NAND, 8MB NOR" 1 1 3
@@ -400,7 +401,7 @@ addtask assemble_fitimage before do_install after do_compile
 
 do_assemble_fitimage_initramfs() {
 	if echo ${KERNEL_IMAGETYPES} | grep -wq "fitImage" && \
-	test -n "${INITRAMFS_IMAGE}" ; then
+	[ -n "${INITRAMFS_IMAGE}" ]; then
 	cd ${B}
 	fitimage_assemble fit-image-${INITRAMFS_IMAGE}.its fitImage-${INITRAMFS_IMAGE} 1
 	fi
