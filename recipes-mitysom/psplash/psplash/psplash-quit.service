@@ -1,0 +1,12 @@
+[Unit]
+Description=Terminate Psplash Boot Screen
+After=psplash-start.service nss-lookup.target
+
+[Service]
+Type=oneshot
+#ExecStart=/usr/bin/psplash-write QUIT
+ExecStart=/usr/bin/killall -QUIT psplash
+TimeoutSec=20
+
+[Install]
+WantedBy=multi-user.target
