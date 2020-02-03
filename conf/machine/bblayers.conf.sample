@@ -10,6 +10,7 @@ YOCTOROOT = "${@os.path.abspath(os.path.join("${TOPDIR}", os.pardir))}"
 BBLAYERS ?= " \
   ${YOCTOROOT}/meta-mitysom-335x \
   ${YOCTOROOT}/meta-criticallink \
+  ${YOCTOROOT}/meta-qt5 \ 
   ${YOCTOROOT}/meta-ti \
   ${YOCTOROOT}/meta-linaro/meta-linaro-toolchain \
   ${YOCTOROOT}/meta-openembedded/meta-oe \
@@ -18,7 +19,6 @@ BBLAYERS ?= " \
   ${YOCTOROOT}/meta \
   ${YOCTOROOT}/meta-poky \
   ${YOCTOROOT}/meta-yocto-bsp \
-  ${YOCTOROOT}/meta-qt5 \
  "
 BBLAYERS_NON_REMOVABLE ?= " \
   ${YOCTOROOT}/meta \

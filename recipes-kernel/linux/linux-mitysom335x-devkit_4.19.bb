@@ -8,6 +8,7 @@ KERNEL_DEVICETREE = "am335x-mitysom-devkit.dtb \
                      cl/am335x-mitysom-256MB.dtbo \
                      cl/am335x-mitysom-256MB-NOR.dtbo \
                      cl/am335x-mitysom-512MB.dtbo \
-                     cl/am335x-mitysom-1GB.dtbo"
+                     cl/am335x-mitysom-1GB.dtbo \
+                     am335x-mitysom-maker.dtb"
 
 KERNEL_IMAGE_LINK_NAME = "${KERNEL_IMAGETYPE}_devkit"
