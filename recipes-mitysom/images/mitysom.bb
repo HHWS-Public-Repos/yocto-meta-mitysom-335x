@@ -17,6 +17,7 @@ IMAGE_INSTALL += "\
     gadget-init-storage \
     makedevs \
     fbfill \
+    gdb \
 "
 
 inherit core-image
