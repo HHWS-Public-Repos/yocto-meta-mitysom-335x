@@ -15,5 +15,5 @@ IMAGE_INSTALL += "packagegroup-qt5-toolchain-target \
 "
 
 inherit populate_sdk_qt5
-
+include font-fixups.inc
 DESCRIPTION = ""
