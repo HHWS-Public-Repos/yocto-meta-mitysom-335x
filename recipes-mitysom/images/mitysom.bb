@@ -18,6 +18,7 @@ IMAGE_INSTALL += "\
     makedevs \
     fbfill \
     gdbserver \
+    openssh-sftp-server \
 "
 
 inherit core-image
