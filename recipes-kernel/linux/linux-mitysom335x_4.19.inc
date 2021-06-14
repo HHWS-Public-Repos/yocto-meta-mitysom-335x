@@ -35,7 +35,7 @@ RRECOMMENDS_${PN} += " kernel-modules"
 
 SRC_URI = "git://wanda/home/git/linux-mityarm-335x.git;protocol=git;bareclone=1;branch=${KBRANCH}"
 
-FILESEXTRAPATHS =. "${FILE_DIRNAME}/linux-mitysom335x:"
+FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/linux-mitysom335x:"
 
 SRC_URI += "file://defconfig \
             file://mitysom-335x.scc \
