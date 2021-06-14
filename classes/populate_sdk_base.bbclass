@@ -7,9 +7,8 @@ TARGET_ARCH="arm"
 
 fakeroot create_sdk_files_platform() {
 	# Install deploy directory
-	for f in ${DEPLOY_DIR_IMAGE}/zImage-* ; do
-		install -m 0755 $f ${SDK_OUTPUT}/${SDKPATH}/deploy
-	done
+
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/zImage ${SDK_OUTPUT}/${SDKPATH}/deploy
 
 	install -d ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND
 	install -m 0755 ${DEPLOY_DIR_IMAGE}/MLO ${SDK_OUTPUT}/${SDKPATH}/deploy/256MB_NAND/MLO
@@ -23,8 +22,8 @@ fakeroot create_sdk_files_platform() {
 	install -m 0755 ${DEPLOY_DIR_IMAGE}/../${MACHINE}-1GB/MLO ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/MLO
 	install -m 0755 ${DEPLOY_DIR_IMAGE}/../${MACHINE}-1GB/u-boot.img* ${SDK_OUTPUT}/${SDKPATH}/deploy/1GB_NAND/u-boot.img
 
-	install -m 0755 ${DEPLOY_DIR_IMAGE}/fitImage-zImage_devkit.bin ${SDK_OUTPUT}/${SDKPATH}/deploy/fitImage
-	
+	install -m 0755 ${DEPLOY_DIR_IMAGE}/fitImage ${SDK_OUTPUT}/${SDKPATH}/deploy/fitImage
+
 	install -d ${SDK_OUTPUT}/${SDKPATH}/sources
 	install -m 0755 ${DEPLOY_DIR_IMAGE}/*335x.its ${SDK_OUTPUT}/${SDKPATH}/sources/fitImage.its
 
