@@ -283,4 +283,4 @@ RM_WORK_EXCLUDE += "mitysom-335x-devkit"
 
 # Fixes locale populate_sdk error
 # rm18180  https://lists.yoctoproject.org/g/yocto/message/47233
-SDK_DEPENDS += "nativesdk-glibc-locale
+SDK_DEPENDS += "nativesdk-glibc-locale"
