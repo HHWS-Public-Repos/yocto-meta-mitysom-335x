@@ -21,4 +21,7 @@ IMAGE_INSTALL += "\
     openssh-sftp-server \
 "
 
+# Ensure rootfs has atleast 256MB free space
+IMAGE_ROOTFS_EXTRA_SPACE ?= "262144"
+
 inherit core-image
