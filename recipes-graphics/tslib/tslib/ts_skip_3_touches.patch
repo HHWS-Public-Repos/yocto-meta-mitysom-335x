@@ -1,0 +1,9 @@
+--- a/ts.conf	2021-06-02 17:49:42.137982340 -0400
++++ b/ts.conf	2021-06-17 14:31:34.608746571 -0400
+@@ -23,3 +23,6 @@
+ module variance delta=30
+ module dejitter delta=100
+ module linear
++
++module skip nhead=3
++
