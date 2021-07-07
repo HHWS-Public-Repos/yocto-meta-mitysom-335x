@@ -2,8 +2,9 @@ require mitysom.bb
 
 IMAGE_INSTALL += "backlight \
      libicui18n \
-     modpwr \ 
+     modpwr \
      qtbase \
+     e2fsprogs-resize2fs \
 "
 
 KERNEL_DEVICETREE_append = "am335x-mitysom-maker.dts"
