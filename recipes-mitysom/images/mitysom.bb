@@ -19,7 +19,10 @@ IMAGE_INSTALL += "\
     fbfill \
     gdbserver \
     openssh-sftp-server \
+    rng-tools \
 "
+
+# rng-tools required to make use of proccessors PRNG module, otherwise generating ssh keys can be super slow
 
 # Ensure rootfs has atleast 256MB free space
 IMAGE_ROOTFS_EXTRA_SPACE ?= "262144"
