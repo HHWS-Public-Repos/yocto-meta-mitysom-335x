@@ -18,6 +18,7 @@ IMAGE_INSTALL += "\
     makedevs \
     fbfill \
     gdbserver \
+    rng-tools \
 "
 
 # Ensure rootfs has atleast 256MB free space
