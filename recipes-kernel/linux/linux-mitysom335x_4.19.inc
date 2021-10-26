@@ -33,7 +33,7 @@ require recipes-kernel/linux/linux-yocto.inc
 DEPENDS += " amx3-cm3"
 RRECOMMENDS_${PN} += " kernel-modules"
 
-SRC_URI = "git://wanda/home/git/linux-mityarm-335x.git;protocol=git;bareclone=1;branch=${KBRANCH}"
+SRC_URI = "git://wanda.syr.criticallink.com/home/git/linux-mityarm-335x.git;protocol=git;bareclone=1;branch=${KBRANCH}"
 
 FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/linux-mitysom335x:"
 
