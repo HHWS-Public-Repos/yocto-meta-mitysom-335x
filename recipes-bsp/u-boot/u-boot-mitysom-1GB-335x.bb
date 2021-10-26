@@ -13,6 +13,4 @@ UBOOT_LOADADDRESS = "0x80008000"
 PR = "r0"
 PV_append = "-1GB+git${SRCPV}"
 
-SRC_URI = "git://wanda/home/git/u-boot-mityarm-335x.git;protocol=git;branch=${BRANCH}"
-
 SRCREV = "${AUTOREV}"
