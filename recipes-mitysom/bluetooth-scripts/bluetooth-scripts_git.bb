@@ -7,7 +7,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 
 SRC_URI = " \
-    git://github.com/TI-ECS/wl1271-bluetooth.git;branch=${BRANCH} \
+    git://github.com/TI-ECS/wl1271-bluetooth.git;branch=${BRANCH};protocol=https \
     file://BT_Init.sh \
 "
 
