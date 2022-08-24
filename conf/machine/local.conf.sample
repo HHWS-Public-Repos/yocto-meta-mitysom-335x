@@ -156,7 +156,7 @@ PACKAGE_CLASSES ?= "package_ipk"
 # running the build on (i.e. building i686 packages on an x86_64 host).
 # Supported values are i686 and x86_64
 SDKMACHINE ?= "i686"
-
+SDKIMAGE_FEATURES = "staticdev-pkgs dev-pkgs dbg-pkgs"
 #
 # Extra image configuration defaults
 #
