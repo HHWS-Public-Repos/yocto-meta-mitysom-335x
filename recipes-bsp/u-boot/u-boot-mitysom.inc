@@ -15,7 +15,7 @@ PKG_${PN}-dbg = "u-boot-dbg"
 
 S = "${WORKDIR}/git"
 
-SRC_URI = "git://wanda.syr.criticallink.com/home/git/u-boot-mityarm-335x.git;protocol=git;branch=${BRANCH}"
+SRC_URI = "git://support.criticallink.com/home/git/u-boot-mityarm-335x.git;protocol=git;branch=${BRANCH}"
 
 BRANCH = "u-boot-2019.01"
 
