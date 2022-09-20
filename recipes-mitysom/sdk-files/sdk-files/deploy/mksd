@@ -1,0 +1,127 @@
+#!/bin/bash
+# mksd - Build an SD card suitable for MityARM335X SDK / EVM
+# based on mk3PartSDCard.sh v0.3 from TI
+# Licensed under terms of GPLv2
+#
+# Revision History
+# 2/13/12 - TJI - Initial port
+# 9/20/17 - JJC - Update sfdisk to support old/new versions
+
+# Copied from build/mksd
+
+die()
+{
+        rv=$1
+        shift
+        echo ERROR: $*
+        exit $rv
+}
+
+# Print usage and exit
+# $1 is exit code
+usage()
+{
+	ec=$1
+	shift
+	[ $# ] && echo ERROR: $*
+	echo "Usage: $(basename $0) <MMC device>"
+	echo "	<MMC device> is the path to the /dev device for the SD card"
+	exit $ec
+}
+
+# Unmount a partition if mounted
+# $1 can be the /dv/name or the mount point
+unmount()
+{
+	D=$1
+	df|grep -q $D || return 0
+	escarg=$(echo $D | sed s';/;\\/;g' )
+	mountpoint=$( df | awk '/'$escarg'/ { print $6 }' )
+	[ -z $mountpoint ] || umount $mountpoint
+	return 0
+}
+
+# Initial sanity checks
+mountpt=""
+[ $# -ge 1 ] || usage 1
+[ "-h" == "$1" ] && usage 0
+if [ "-m" == "$1" ]
+then
+	mountpt=$2
+	shift 2
+fi
+[ 0 == $UID ] || die 1 You must be root to run this script
+
+DRIVE=$1
+
+(echo $DRIVE|grep -q '^/dev/') || usage 2 $DRIVE is not a local device
+(df . | grep $DRIVE) && die 2 You cannot run this script in the CWD $PWD
+(df / | grep $DRIVE) && die 2 'ACK!!' root / is on $DRIVE
+
+DISK=$(echo $DRIVE|sed 's;/dev/;;')
+# Check that DISK is removable... not the partition
+DISK=${DISK:0:3}
+DRIVE=/dev/$DISK
+
+removable_file=/sys/class/block/${DISK}/removable
+removable=0
+[ -e $removable_file ] && removable=$(cat $removable_file)
+[ 1 -eq $removable ] || die Cautiosly refusing to format non-removable drive $DRIVE
+
+echo Making sure $DRIVE is not mounted
+umount -f $(df | awk '/\/dev\/'${DISK}'/ {print $6}' ) > /dev/null 2>&1
+
+echo Testing disk
+dd if=/dev/zero of=$DRIVE bs=1024 count=1024 > /dev/null || die 2 "Unable to use disk $DISK"
+SIZE=`fdisk -l $DRIVE | grep Disk | awk '{print $5}'`
+
+echo DISK SIZE - $SIZE bytes
+
+# Handle in sectors to support old and new sfdisk
+#SECTORS=$(echo "$SIZE/512" | bc)
+# p1 70MB FAT
+# p2 1GB Linux
+# p2 Remainder Linux
+# Note: -u S -L is required for old sfdisk
+echo Creating partition table
+(sfdisk -u S -L "$DRIVE" << EOF
+2048,145408,0x0C,*
+,2097152,,-
+,,,-
+EOF
+) > /dev/null
+
+## JJC Incompatible with newer sfdisk
+#CYLINDERS=`echo $SIZE/255/63/512 | bc`
+#
+#echo Creating partition table
+#(sfdisk -D -H 255 -S 63 -C $CYLINDERS $DRIVE << EOF
+#,9,0x0C,*
+#10,115,,-
+#126,,,-
+#EOF
+#) > /dev/null
+
+echo Creating boot partition
+mkfs.vfat -F 32 -n "boot" ${DRIVE}1 > /dev/null
+unmount ${DRIVE}1
+echo Creating rootfs partition. this can take a while.. please be patient
+mkfs.ext3 -L "rootfs" ${DRIVE}2 > /dev/null
+unmount ${DRIVE}2
+echo Creating user partition. this can take a while.. please be patient
+mkfs.ext3 -L "START_HERE" ${DRIVE}3 > /dev/null
+unmount ${DRIVE}3
+
+if [ "x" != "x$mountpt" ]
+then
+	mkdir -p ${mountpt} || die 2 Cannont create mount point ${mountpt}
+	for ii in 1 2 3
+	do
+		mntdir=${mountpt}/p${ii}
+		mkdir -p ${mntdir} || die 2 Cannont create mount point ${mntdir}
+		mount ${DRIVE}$ii ${mntdir} || die 3 Unable to mount  ${DRIVE}$ii as ${mntdir} 
+	done
+fi
+
+exit 0
+

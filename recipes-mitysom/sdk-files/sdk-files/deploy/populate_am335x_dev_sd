@@ -1,0 +1,275 @@
+#!/bin/bash
+
+# Revision History
+# 3/14/12 - TJI - Initial port
+# 7/2/14 - JJC - Allow spaces in path
+# 2/1/19 - JJC - Copy all files from boot/. Supports images with zImage and dtbs
+#              - Add tar checkpoints to track tar progress
+
+dir=$(readlink -f "$0")
+dir=$(dirname "$dir")
+
+mnt=/tmp/mity335x
+do_mksd=y
+rootfs_tar=${dir}/am335x_root.tar
+boot_tar=${dir}/am335x_boot.tar
+tar_x_args=(-x)
+# https://www.gnu.org/software/tar/manual/html_section/tar_26.html#SEC48
+# Print progress
+tar_x_args+=(--totals --checkpoint=1000 --checkpoint-action="echo=#%u: %T")
+bootdir=$(pwd)/boot
+
+keep_going=1
+continuous=0
+force=0
+
+die()
+{
+        rv=$1
+        shift
+        echo ERROR: $*
+        exit $rv
+}
+
+# Print usage and exit
+# $1 is exit code
+usage()
+{
+	ec=$1
+	shift
+	[ $# -gt 0 ] && echo ERROR: $*
+	echo "Usage: $(basename "$0") [opts] <MMC device>"
+	echo "    -h|--help        Print this help"
+	echo "    -b|--bootdir	   Directory containing boot files"
+	echo "    -c|--continuous  Continue and make multiple copies"
+	echo "    -f|--force       Don't ask.. just do it"
+	echo "    -v|--verbose     Be more verbose when working"
+	echo "    -m|--mount=<mount point> mount the disk at mount point"
+	echo "    -r|--rootfs=<rootfs tarfile> Use the specified tar file for root fs"
+	echo "    -p|--probe       Find mmccards and exit"
+	echo "    -N|--noformat    skip formatting SD card"
+	echo "	<MMC device> is the path to the /dev device for the SD card"
+	exit $ec
+}
+
+# Unmount a partition if mounted
+# $1 can be the /dv/name or the mount point
+unmount()
+{
+	D=$1
+	df -l|grep -q $D || return 0
+	escarg=$(echo $D | sed s';/;\\/;g' )
+	mountpoint=$( df  -l| awk '/'$escarg'/ { print $6 }' )
+	[ -z $mountpoint ] || umount $mountpoint
+	return 0
+}
+
+find_mmc_cards()
+{
+	echo
+	local found=""
+	for ddd in $(find /dev/disk/by-id -iname \*MMC\* -ls|awk '{print $(NF)}')
+	do
+		local DisK=$(basename $ddd)
+		DisK=/dev/${DisK:0:3}
+		echo $found|grep -q $DisK >/dev/null && continue
+		found="$found $DisK"
+		echo Found MMC card at $DisK
+		fdisk -l $DisK
+	done
+	echo
+	echo ------------------------------------------------
+	echo
+}
+
+# pre_install_fixup is called before files are extracted to the target
+# $1 is the partition and is either "root" "boot" or "extra"
+# $2 is the path to the target directory
+pre_install_fixup()
+{
+	#nothing to do yet
+	return 0
+}
+
+# post_install_fixup is called after files are extracted to the target
+# $1 is the partition and is either "root" "boot" or "extra"
+# $2 is the path to the target directory
+post_install_fixup()
+{
+	local part=$1
+	local dir=$2
+	case $part in
+	boot) ;;
+	root) 
+		# remove the persistent net rules that tie eth0 to a particular mac
+		rm -f ${dir}/etc/udev/rules.d/70-persistent-net.rules
+	;;
+	extra);;
+	*) die 2 Internal Error... invalid parition type $part in post_install_fixup;;
+	esac
+
+	return 0
+}
+
+# Initial sanity checks
+[ $# -ge 1 ] || usage 1
+
+TEMP=`getopt -o b:pfhcvm:r:N --long bootdir:,rootfs:,probe,force,continuous,help,verbose,mount:noformat \
+     -n "$0" -- "$@"`
+[ $? != 0 ] && die 1 bad arguments
+
+# Note the quotes around `$TEMP': they are essential!
+eval set -- "$TEMP"
+while true ; do
+        case "$1" in
+                -h|--help) usage 0;;
+                -b|--bootdir) bootdir=$2; shift 2;;
+                -c|--continuous) continuous=1 ; shift ;;
+                -f|--force) force=1 ; shift ;;
+                -v|--verbose) tar_x_args+=( -v); shift ;;
+                -m|--mount) mnt=$2; shift 2;;
+                -r|--rootfs) rootfs_tar=$2; shift 2;;
+                -p|--probe) find_mmc_cards; exit 0;;
+                -N|--noformat) do_mksd="" ; shift 1;;
+                --) shift ; break ;;
+                *) echo "Internal error!" ; exit 1 ;;
+        esac
+done
+
+[ 0 == $UID ] || die 1 You must be root to run this script
+
+DRIVE=$1
+
+(echo $DRIVE|grep -q '^/dev/') || usage 2 $DRIVE is not a local device
+(df . | grep $DRIVE) && die 2 You cannot run this script in the CWD $PWD
+(df / | grep $DRIVE) && die 2 'ACK!!' root / is on $DRIVE
+
+DISK=$(echo $DRIVE|sed 's;/dev/;;')
+# Check that DISK is removable... not the partition
+DISK=${DISK:0:3}
+DRIVE=/dev/$DISK
+
+echo
+ls -l /dev/disk/by-id/|grep $DISK$|awk '{print "INFO: '$DISK' ID is: " $8 }'
+echo ----------------------------------------------------------
+echo
+
+# make sure we have full paths to the essential files...
+bootdir=$(readlink -f "${bootdir}" 2>/dev/null)
+rootfs_tar=$(readlink -f "${rootfs_tar}" 2>/dev/null)
+
+echo bootdir = ${bootdir}
+echo rootfs  = ${rootfs_tar}
+echo device  = ${DRIVE}
+
+while [ $keep_going -eq 1 ]
+do
+	# If not force, then ask for confirmation on device
+	if [ $force -eq 0 ]
+	then
+		is_mounted=0;
+		mount|grep -q $DISK && is_mounted=1
+		if [ 1 -eq $is_mounted ]
+		then
+			echo CAUTION: $DISK is mounted:
+			mount | grep $DISK
+			read -p "Press y to confirm [y|N] " ans
+			case $ans in
+			y | Y ) is_mounted=0;;
+			esac
+		fi
+
+		if [  1 -eq $is_mounted ] 
+		then
+			die 1 exiting.. please double check disk
+		fi
+	fi
+	keep_going=$continuous
+	removable_file=/sys/class/block/${DISK}/removable
+	removable=0
+	[ -e $removable_file ] && removable=$(cat $removable_file)
+	[ 1 -eq $removable ] || die Cautiosly refusing to format non-removable drive $DRIVE
+
+	echo Making sure $DRIVE is not mounted
+	umount -f $(df -l| awk '/\/dev\/'${DISK}'/ {print $6}' ) > /dev/null 2>&1
+
+	if [ -n "$do_mksd" ]
+	then
+		${dir}/mksd -m ${mnt} $DRIVE || die 2 Errors encountered creating SD card..
+	else
+		mkdir -p ${mnt} || die 2 Cannont create mount point ${mnt}
+		for ii in 1 2 3
+		do
+			mntdir=${mnt}/p${ii}
+			mkdir -p ${mntdir} 
+			mount ${DRIVE}$ii ${mntdir}
+			df ${mntdir}|grep -q ${DRIVE}$ii || die 3 "SD Card not mounted"
+		done
+	fi
+
+	if [ -n "$bootdir" ]
+	then
+		# setup the boot partition
+		pre_install_fixup boot $mnt/p1
+		# bootdir can be a real dir or a tarball
+		if [ -f "${bootdir}" ]
+		then
+			boot_tar="${bootdir}"
+			parts=0
+			# Determine if boot folder exists inside tarball
+			tar tf "${boot_tar}" | grep -q ^boot/ && parts=1
+			# Errors to the bit bucket... Cannout set ownership on VFAT FS
+			tar -C $mnt/p1 --strip-components=$parts "${tar_x_args[@]}" -f "${boot_tar}" 2>/dev/null
+		elif [ -d "${bootdir}" ]
+		then
+			cp "${bootdir}"/* "$mnt/p1"
+		fi
+		post_install_fixup boot $mnt/p1
+		[ -e $mnt/p1/MLO ] && [ -e  $mnt/p1/u-boot.img ] || die 2 Errors encountered extracting boot files
+	else
+		echo No boot files specified
+	fi
+
+
+	# setup the root partition
+	if [ -n "$rootfs_tar" ]
+	then
+		pre_install_fixup root $mnt/p2
+		(cd $mnt/p2 && tar "${tar_x_args[@]}" -f "$rootfs_tar" && cd - ) || die 2 Error extracting root FS files
+		post_install_fixup root $mnt/p2
+	else
+		echo No root FS specified
+	fi
+
+	# setup the extra partition
+	pre_install_fixup extra $mnt/p3
+	post_install_fixup extra $mnt/p3
+
+	echo -n "Please wait while data is sync'd to disk... "
+	sync;sync
+	echo "done"
+
+	if [ 0 -eq $keep_going ]
+	then
+		read -p "Unmount SD card? [Y/n]" ans
+		case $ans in
+		n | N | No | no) exit 0;;
+		esac
+	else
+		read -p "Change SD card.. [q to quit]" ans
+		case $ans in
+		q | Q ) keep_going=0;;
+		esac
+	fi
+	for ii in 1 2 3
+	do
+		unmount $mnt/p$ii
+	done
+done
+for ii in 1 2 3
+do
+	rmdir $mnt/p$ii
+done
+rmdir $mnt
+
+exit 0

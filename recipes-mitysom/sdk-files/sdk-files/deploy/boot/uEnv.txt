@@ -1,0 +1,15 @@
+bootargs_defaults=setenv bootargs console=${console} ${optargs}
+mmc_args=run bootargs_defaults;setenv bootargs ${bootargs} root=${mmc_root} rootfstype=${mmc_root_fs_type} ip=${ip_method}
+mmc_dev=0
+mmc_root=/dev/mmcblk0p2 rw
+mmc_root_fs_type=ext3 rootwait
+kloadaddr=0x83000000
+fdtaddr=0x88000000
+mmc_fitimage_boot=mmc rescan; run fit_setup; load mmc ${mmc_dev} ${kloadaddr} fitImage && bootm ${kloadaddr}${fit_conf}
+fit_setup=run fit_none; run fit_nand; run fit_nor
+fit_none=setenv fit_conf '#conf'
+fit_nand=test -n ${nand_size} && setenv fit_conf '#conf_'${nand_size}
+fit_nor=test -n ${nor_size} && setenv fit_conf '#conf_'${nand_size}'_'${nor_size}
+mmc_zimage_boot=mmc rescan; load mmc ${mmc_dev} ${kloadaddr} zImage && load mmc ${mmc_dev} ${fdtaddr} am335x-mitysom.dtb && bootz ${kloadaddr} - ${fdtaddr}
+mmc_uimage_boot=setenv console ttyO0,115200n8; run mmc_args; mmc rescan; load mmc ${mmc_dev} ${kloadaddr} uImage && bootm ${kloadaddr}
+uenvcmd=run config_dvi; run mmc_args; run mmc_fitimage_boot; run mmc_zimage_boot; run mmc_uimage_boot;
