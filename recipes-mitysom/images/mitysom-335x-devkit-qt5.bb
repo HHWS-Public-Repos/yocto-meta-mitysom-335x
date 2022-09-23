@@ -1,14 +1,16 @@
 require mitysom.bb
 
-IMAGE_INSTALL += "backlight \
-     libicui18n \
-     modpwr \
-     evtest \
+IMAGE_INSTALL_append = "\
+        backlight \
+        libicui18n \
+        modpwr \
+        evtest \
 "
 
 #QT5 support
 DISTRO_FEATURES_remove = "x11 wayland"
-IMAGE_INSTALL += "packagegroup-qt5-toolchain-target \
+IMAGE_INSTALL_append = "\
+        packagegroup-qt5-toolchain-target \
         cinematicexperience \
         qtbase \
         qtbase-tools \

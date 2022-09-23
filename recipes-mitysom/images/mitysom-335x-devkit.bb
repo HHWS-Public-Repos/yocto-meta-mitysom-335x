@@ -1,6 +1,7 @@
 require mitysom.bb
 
-IMAGE_INSTALL += "backlight \
+IMAGE_INSTALL_append = " \
+     backlight \
      libicui18n \
      modpwr \
      qtbase \

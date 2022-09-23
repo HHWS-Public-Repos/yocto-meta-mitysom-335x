@@ -8,7 +8,9 @@ IMAGE_FEATURES += "\
     ssh-server-openssh \
 "
 
-IMAGE_INSTALL += "\
+inherit core-image
+
+IMAGE_INSTALL_append = " \
     packagegroup-criticallink-base \
     packagegroup-criticallink-console \
     packagegroup-criticallink-network \
@@ -23,5 +25,3 @@ IMAGE_INSTALL += "\
 
 # Ensure rootfs has atleast 256MB free space
 IMAGE_ROOTFS_EXTRA_SPACE ?= "262144"
-
-inherit core-image
