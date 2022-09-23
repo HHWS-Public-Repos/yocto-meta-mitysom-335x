@@ -24,4 +24,4 @@ IMAGE_INSTALL_append = " \
 "
 
 # Ensure rootfs has atleast 256MB free space
-IMAGE_ROOTFS_EXTRA_SPACE ?= "262144"
+IMAGE_ROOTFS_EXTRA_SPACE_append = " + 262144"
