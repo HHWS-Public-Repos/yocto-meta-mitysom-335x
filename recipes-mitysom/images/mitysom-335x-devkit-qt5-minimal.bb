@@ -16,6 +16,8 @@ IMAGE_ROOTFS_EXTRA_SPACE_append = "${@bb.utils.contains("DISTRO_FEATURES", "syst
 DISTRO_FEATURES_remove = "x11 wayland"
 
 IMAGE_INSTALL_append = "\
+	 ttf-dejavu-sans \
+	 ttf-dejavu-serif \
          qtbase \
 "
 
