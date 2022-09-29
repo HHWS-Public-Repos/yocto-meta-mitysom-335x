@@ -18,6 +18,9 @@ DISTRO_FEATURES_remove = "x11 wayland"
 IMAGE_INSTALL_append = "\
 	 ttf-dejavu-sans \
 	 ttf-dejavu-serif \
+	 openssh \
+	 openssh-sftp-server \
+	 dhcp-client \
          qtbase \
 "
 
