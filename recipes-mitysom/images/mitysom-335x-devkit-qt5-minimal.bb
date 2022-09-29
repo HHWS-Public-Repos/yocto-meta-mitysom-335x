@@ -22,6 +22,7 @@ IMAGE_INSTALL_append = "\
 	 openssh-sftp-server \
 	 dhcp-client \
          qtbase \
+	 qtbase-plugins \
 "
 
 inherit populate_sdk_qt5
