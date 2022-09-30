@@ -25,6 +25,7 @@ IMAGE_INSTALL_append = "\
 	 qtbase-plugins \
 	 qtwebkit \
 	 v4l-utils \
+	 qwt-qt5 \
 "
 
 inherit populate_sdk_qt5
