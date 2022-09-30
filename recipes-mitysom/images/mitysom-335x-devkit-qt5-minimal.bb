@@ -23,6 +23,8 @@ IMAGE_INSTALL_append = "\
 	 dhcp-client \
          qtbase \
 	 qtbase-plugins \
+	 qtwebkit \
+	 v4l-utils \
 "
 
 inherit populate_sdk_qt5
