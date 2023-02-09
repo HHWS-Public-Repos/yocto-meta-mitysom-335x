@@ -6,7 +6,7 @@ PV = "1.0"
 PR = "r0"
 
 # Will use machine name or SOC_FAMILY to select make_sd_image.sh script from appropriate folder
-SRC_URI = "file://make_sd_image.sh"
+SRC_URI = "file://ti33x/make_sd_image.sh"
 
 S = "${WORKDIR}"
 
@@ -59,7 +59,7 @@ BBCLASSEXTEND = "native nativesdk"
 
 do_install() {
 	install -d ${D}${bindir}
-	install -m 0755 ${S}/make_sd_image.sh ${D}${bindir}/make_sd_image.sh
+	install -m 0755 ${S}/ti33x/make_sd_image.sh ${D}${bindir}/make_sd_image.sh
 }
 
 FILES_${PN} = "${bindir}/make_sd_image.sh"
